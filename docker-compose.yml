@@ -1,0 +1,117 @@
+version: "3.9"
+
+services:
+  # ─── PostgreSQL + PostGIS ──────────────────────────────
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: tenpo-postgres
+    environment:
+      POSTGRES_USER: tenpo
+      POSTGRES_PASSWORD: tenpo_secret_2024
+      POSTGRES_DB: tenpo_atlas
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/init-postgis.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tenpo -d tenpo_atlas"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ─── Redis ─────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: tenpo-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ─── FastAPI Backend ───────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tenpo-backend
+    environment:
+      DATABASE_URL: postgresql+asyncpg://tenpo:tenpo_secret_2024@postgres:5432/tenpo_atlas
+      DATABASE_URL_SYNC: postgresql://tenpo:tenpo_secret_2024@postgres:5432/tenpo_atlas
+      REDIS_URL: redis://redis:6379/0
+      JWT_SECRET: tenpo-atlas-jwt-secret-change-in-prod-2024
+      JWT_REFRESH_SECRET: tenpo-atlas-refresh-secret-change-in-prod-2024
+      CORS_ORIGINS: '["http://localhost:3000"]'
+      ENV: development
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: >
+      sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  # ─── Celery Worker ─────────────────────────────────────
+  celery-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tenpo-celery-worker
+    environment:
+      DATABASE_URL: postgresql+asyncpg://tenpo:tenpo_secret_2024@postgres:5432/tenpo_atlas
+      DATABASE_URL_SYNC: postgresql://tenpo:tenpo_secret_2024@postgres:5432/tenpo_atlas
+      REDIS_URL: redis://redis:6379/0
+      JWT_SECRET: tenpo-atlas-jwt-secret-change-in-prod-2024
+      ENV: development
+    volumes:
+      - ./backend:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: celery -A app.workers.celery_app worker -l info -B --scheduler celery.beat:PersistentScheduler
+
+  # ─── Celery Flower Monitor ─────────────────────────────
+  flower:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tenpo-flower
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
+    command: celery -A app.workers.celery_app flower --port=5555
+
+  # ─── Next.js Frontend ─────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tenpo-frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXT_PUBLIC_MAPBOX_TOKEN: ${MAPBOX_TOKEN:-}
+      NEXT_PUBLIC_MAP_PROVIDER: ${MAP_PROVIDER:-leaflet}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/tailwind.config.ts:/app/tailwind.config.ts
+      - ./frontend/postcss.config.js:/app/postcss.config.js
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
