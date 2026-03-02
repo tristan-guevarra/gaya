@@ -1,8 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════
-   Gaya — Activity Heatmap
-   GitHub-style contribution calendar showing coach engagement,
-   events hosted, leads converted, and streak tracking.
-   ═══════════════════════════════════════════════════════════════════ */
+// activity heatmap - github-style contribution calendar for coach engagement, events, leads, and streaks
 
 'use client';
 
@@ -14,7 +10,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────
 
 interface DayData {
   date: string;
@@ -35,7 +30,6 @@ interface TimelineItem {
   accent: string;
 }
 
-// ─── Generate Heatmap Data ──────────────────────────────────────
 
 function generateHeatmapData(): DayData[] {
   const data: DayData[] = [];
@@ -48,7 +42,7 @@ function generateHeatmapData(): DayData[] {
     const month = d.getMonth();
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
-    // Simulate realistic activity patterns
+    // simulate realistic activity patterns
     const seasonMultiplier = [6, 7, 8].includes(month) ? 2.5 : [5, 9].includes(month) ? 1.5 : [11, 0, 1].includes(month) ? 0.6 : 1;
     const weekdayMultiplier = isWeekend ? 1.3 : 1;
     const randomness = Math.random();
@@ -70,7 +64,6 @@ function generateHeatmapData(): DayData[] {
   return data;
 }
 
-// ─── Activity Level ─────────────────────────────────────────────
 
 function getActivityLevel(xp: number): 0 | 1 | 2 | 3 | 4 {
   if (xp === 0) return 0;
@@ -88,7 +81,6 @@ const LEVEL_COLORS = [
   'bg-atlas-500/90',
 ];
 
-// ─── Mock Timeline ──────────────────────────────────────────────
 
 const TIMELINE: TimelineItem[] = [
   { id: 't1', type: 'event', title: 'Spring Elite Camp', description: 'Hosted 5-day camp in Scarborough East · 37/40 filled', timestamp: '2 hours ago', xp: 250, icon: Calendar, accent: 'bg-atlas-500/10 text-atlas-400' },
@@ -101,18 +93,17 @@ const TIMELINE: TimelineItem[] = [
   { id: 't8', type: 'booking', title: '5 Bookings Confirmed', description: 'From waitlist conversion · $1,745 total revenue', timestamp: '4 days ago', xp: 375, icon: DollarSign, accent: 'bg-green-500/10 text-green-400' },
 ];
 
-// ─── Heatmap Calendar Component ─────────────────────────────────
 
 function HeatmapCalendar({ data, metric }: { data: DayData[]; metric: 'xp' | 'events' | 'leads' | 'bookings' }) {
   const [hoveredDay, setHoveredDay] = useState<DayData | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
-  // Group by weeks
+  // group by weeks
   const weeks = useMemo(() => {
     const result: DayData[][] = [];
     let currentWeek: DayData[] = [];
 
-    // Pad start to align with Sunday
+    // pad start to align with sunday
     const firstDate = new Date(data[0].date);
     const startPad = firstDate.getDay();
     for (let i = 0; i < startPad; i++) {
@@ -139,7 +130,7 @@ function HeatmapCalendar({ data, metric }: { data: DayData[]; metric: 'xp' | 'ev
     }
   };
 
-  // Month labels
+  // month labels
   const months = useMemo(() => {
     const labels: { label: string; weekIdx: number }[] = [];
     let lastMonth = -1;
@@ -159,7 +150,7 @@ function HeatmapCalendar({ data, metric }: { data: DayData[]; metric: 'xp' | 'ev
 
   return (
     <div className="relative">
-      {/* Month labels */}
+      {/* month labels */}
       <div className="flex mb-1.5 ml-8">
         {months.map((m, i) => (
           <div key={i} className="text-[9px] text-text-muted" style={{ position: 'relative', left: `${m.weekIdx * 14}px` }}>
@@ -169,14 +160,14 @@ function HeatmapCalendar({ data, metric }: { data: DayData[]; metric: 'xp' | 'ev
       </div>
 
       <div className="flex gap-0">
-        {/* Day labels */}
+        {/* day labels */}
         <div className="flex flex-col justify-between pr-2 py-0.5" style={{ height: `${7 * 12 + 6}px` }}>
           {['', 'Mon', '', 'Wed', '', 'Fri', ''].map((d, i) => (
             <span key={i} className="text-[9px] text-text-muted leading-none h-[10px] flex items-center">{d}</span>
           ))}
         </div>
 
-        {/* Grid */}
+        {/* grid */}
         <div className="flex gap-[2px]">
           {weeks.map((week, wi) => (
             <div key={wi} className="flex flex-col gap-[2px]">
@@ -206,7 +197,7 @@ function HeatmapCalendar({ data, metric }: { data: DayData[]; metric: 'xp' | 'ev
         </div>
       </div>
 
-      {/* Tooltip */}
+      {/* tooltip */}
       {hoveredDay && hoveredDay.date && (
         <div className="fixed z-50 px-3 py-2 rounded-lg bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 shadow-xl"
           style={{ left: tooltipPos.x, top: tooltipPos.y }}>
@@ -220,7 +211,7 @@ function HeatmapCalendar({ data, metric }: { data: DayData[]; metric: 'xp' | 'ev
         </div>
       )}
 
-      {/* Legend */}
+      {/* legend */}
       <div className="flex items-center gap-2 mt-3">
         <span className="text-[9px] text-text-muted">Less</span>
         {LEVEL_COLORS.map((color, i) => (
@@ -232,13 +223,12 @@ function HeatmapCalendar({ data, metric }: { data: DayData[]; metric: 'xp' | 'ev
   );
 }
 
-// ─── Page Component ─────────────────────────────────────────────
 
 export default function ActivityPage() {
   const [metric, setMetric] = useState<'xp' | 'events' | 'leads' | 'bookings'>('xp');
   const heatmapData = useMemo(() => generateHeatmapData(), []);
 
-  // Compute stats from data
+  // compute stats from data
   const totalXP = heatmapData.reduce((s, d) => s + d.xp, 0);
   const totalEvents = heatmapData.reduce((s, d) => s + d.events, 0);
   const totalLeads = heatmapData.reduce((s, d) => s + d.leads, 0);
@@ -265,7 +255,7 @@ export default function ActivityPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex items-center justify-between mb-6">
@@ -279,7 +269,7 @@ export default function ActivityPage() {
             </div>
           </div>
 
-          {/* Stats Row */}
+          {/* stats row */}
           <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
             {[
               { label: 'Total XP', value: totalXP.toLocaleString(), icon: Zap, color: 'text-atlas-400' },
@@ -301,7 +291,7 @@ export default function ActivityPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* ═══ Heatmap ═══ */}
+          {/* heatmap */}
           <div className="lg:col-span-2">
             <div className="rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 p-6">
               <div className="flex items-center justify-between mb-6">
@@ -321,7 +311,7 @@ export default function ActivityPage() {
                 <HeatmapCalendar data={heatmapData} metric={metric} />
               </div>
 
-              {/* Streak Info */}
+              {/* streak info */}
               <div className="mt-6 flex items-center gap-6 pt-4 border-t border-slate-200">
                 <div className="flex items-center gap-2">
                   <Flame className="w-4 h-4 text-red-400" />
@@ -338,7 +328,7 @@ export default function ActivityPage() {
               </div>
             </div>
 
-            {/* ═══ Monthly Breakdown ═══ */}
+            {/* monthly breakdown */}
             <div className="mt-6 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 p-6">
               <h2 className="font-display font-semibold text-text-primary mb-4">Monthly Breakdown</h2>
               <div className="space-y-2">
@@ -376,7 +366,7 @@ export default function ActivityPage() {
             </div>
           </div>
 
-          {/* ═══ Activity Timeline ═══ */}
+          {/* activity timeline */}
           <div className="lg:col-span-1">
             <div className="rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 overflow-hidden">
               <div className="px-5 py-4 border-b border-slate-200">

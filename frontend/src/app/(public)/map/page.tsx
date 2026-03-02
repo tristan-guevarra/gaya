@@ -136,7 +136,7 @@ export default function MapPage() {
     return allMarkers.filter((m) => {
       if (filters.event_type && filters.event_type !== 'all') {
         if (m.type === 'event' && m.event_type !== filters.event_type) return false;
-        if (m.type === 'coach' && filters.event_type !== 'all') return true; // Always show coaches
+        if (m.type === 'coach' && filters.event_type !== 'all') return true; // always show coaches
       }
       if (filters.price_min && m.price_cents && m.price_cents < filters.price_min * 100) return false;
       if (filters.price_max && m.price_cents && m.price_cents > filters.price_max * 100) return false;
@@ -156,7 +156,7 @@ export default function MapPage() {
     toast.success('Map link copied to clipboard!');
   }, [filters]);
 
-  // Parse URL params on mount
+  // parse url params on mount
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
@@ -169,7 +169,7 @@ export default function MapPage() {
 
   return (
     <div className="relative w-full h-[calc(100vh-64px)]">
-      {/* Map fills full viewport below navbar */}
+      {/* map fills full viewport below navbar */}
       <DiscoveryMap
         markers={filteredMarkers}
         activeLayer={activeLayer}
@@ -177,7 +177,7 @@ export default function MapPage() {
         className="w-full h-full"
       />
 
-      {/* Left: Filters */}
+      {/* filters */}
       <MapFilterPanel
         filters={filters}
         onFiltersChange={setFilters}
@@ -187,7 +187,7 @@ export default function MapPage() {
         onShare={handleShare}
       />
 
-      {/* Right: Listings */}
+      {/* listings */}
       <MapListingSidebar
         markers={filteredMarkers.slice(0, 50)}
         isLoading={false}
@@ -198,7 +198,7 @@ export default function MapPage() {
         onToggle={() => setSidebarVisible(!sidebarVisible)}
       />
 
-      {/* Bottom: Legend when heatmap active */}
+      {/* legend when heatmap active */}
       {activeLayer && (
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[500] glass-card px-4 py-2.5 flex items-center gap-3 animate-slide-up">
           <span className="text-[10px] text-text-muted uppercase tracking-wider">

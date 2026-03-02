@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════
-   Gaya — Revenue Forecasting Engine
-   Time-series projections with confidence bands,
-   scenario comparison, zone revenue breakdown,
-   and booking funnel analysis
-   ═══════════════════════════════════════════════════════════ */
+// revenue forecasting engine - time-series projections, confidence bands, scenario comparison, and zone breakdown
 
 'use client';
 
@@ -21,7 +16,6 @@ import {
   Layers, Globe, ChevronDown, Sparkles, PieChart
 } from 'lucide-react';
 
-// ─── Revenue Forecast Data ────────────────────────────────
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const CURRENT_MONTH = 1; // February (0-indexed)
@@ -43,7 +37,6 @@ const FORECAST_DATA = MONTHS.map((month, i) => {
   };
 });
 
-// ─── Scenario Data ────────────────────────────────────────
 
 type Scenario = 'base' | 'aggressive' | 'conservative';
 
@@ -53,7 +46,6 @@ const SCENARIO_MULTIPLIERS: Record<Scenario, number> = {
   conservative: 0.75,
 };
 
-// ─── Zone Revenue ─────────────────────────────────────────
 
 const ZONE_REVENUE = [
   { zone: 'Downtown', revenue: 42800, bookings: 156, avg_ticket: 274, growth: 18, fill_rate: 0.82 },
@@ -68,7 +60,6 @@ const ZONE_REVENUE = [
 
 const maxRevenue = ZONE_REVENUE[0].revenue;
 
-// ─── Funnel Data ──────────────────────────────────────────
 
 const FUNNEL = [
   { stage: 'Map Views', count: 12450, color: '#4d9fff' },
@@ -78,7 +69,6 @@ const FUNNEL = [
   { stage: 'Completed', count: 612, color: '#00cc88' },
 ];
 
-// ─── Monthly Breakdown ────────────────────────────────────
 
 const MONTHLY_BREAKDOWN = [
   { type: 'Camps', revenue: 28400, pct: 0.42, color: '#4d9fff' },
@@ -86,7 +76,6 @@ const MONTHLY_BREAKDOWN = [
   { type: 'Private', revenue: 16800, pct: 0.25, color: '#a78bfa' },
 ];
 
-// ─── Custom Tooltip ───────────────────────────────────────
 
 function ForecastTooltip({ active, payload, label }: any) {
   if (!active || !payload) return null;
@@ -111,7 +100,6 @@ function ForecastTooltip({ active, payload, label }: any) {
   );
 }
 
-// ─── Page Component ───────────────────────────────────────
 
 export default function ForecastPage() {
   const [scenario, setScenario] = useState<Scenario>('base');
@@ -133,7 +121,7 @@ export default function ForecastPage() {
 
   return (
     <div className="min-h-screen pb-16">
-      {/* ─── Header ─── */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-[1400px] mx-auto px-6 py-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -169,7 +157,7 @@ export default function ForecastPage() {
       </div>
 
       <div className="max-w-[1400px] mx-auto px-6 pt-8">
-        {/* ─── Top Stats ─── */}
+        {/* top stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <StatCard label="YTD Revenue" value={`$${(totalActual / 100).toLocaleString()}`} trend={22} icon={<DollarSign className="w-5 h-5" />} />
           <StatCard label="Projected Annual" value={`$${(totalProjected / 100).toLocaleString()}`} trend={34} icon={<TrendingUp className="w-5 h-5" />} />
@@ -177,7 +165,7 @@ export default function ForecastPage() {
           <StatCard label="Dec Projection" value={`$${(yearEndProjection / 100).toLocaleString()}`} trend={45} icon={<Target className="w-5 h-5" />} />
         </div>
 
-        {/* ─── Main Forecast Chart ─── */}
+        {/* main forecast chart */}
         <Card className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
             <div>
@@ -205,7 +193,7 @@ export default function ForecastPage() {
             </div>
           </div>
 
-          {/* Legend */}
+          {/* legend */}
           <div className="flex items-center gap-5 mb-4 text-xs">
             <span className="flex items-center gap-1.5">
               <div className="w-3 h-1.5 rounded-full bg-atlas-500" /> Actual
@@ -239,17 +227,17 @@ export default function ForecastPage() {
               />
               <Tooltip content={<ForecastTooltip />} />
 
-              {/* Now / Actual boundary */}
+              {/* now / actual boundary */}
               <ReferenceLine x={MONTHS[CURRENT_MONTH]} stroke="#ffffff15" strokeDasharray="6 4" label={{ value: 'Now', fill: '#6985c6', fontSize: 10, position: 'top' }} />
 
-              {/* Confidence band (area between upper and lower) */}
+              {/* confidence band (area between upper and lower) */}
               <Area type="monotone" dataKey="upper_bound" stroke="none" fill="url(#bandGrad)" />
               <Area type="monotone" dataKey="lower_bound" stroke="none" fill="rgba(255,255,255,0.3)" />
 
-              {/* Predicted line */}
+              {/* predicted line */}
               <Line type="monotone" dataKey="predicted" name="Predicted" stroke="#4d9fff" strokeWidth={2} dot={false} strokeDasharray="6 3" />
 
-              {/* Actual revenue */}
+              {/* actual revenue */}
               <Area type="monotone" dataKey="actual" name="Actual" stroke="#3b82f6" fill="url(#actualGrad)" strokeWidth={2.5} dot={{ r: 4, fill: '#3b82f6', stroke: '#ffffff', strokeWidth: 2 }} connectNulls={false} />
             </ComposedChart>
           </ResponsiveContainer>
@@ -263,7 +251,7 @@ export default function ForecastPage() {
         </Card>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
-          {/* ─── Zone Revenue Breakdown ─── */}
+          {/* zone revenue breakdown */}
           <Card>
             <h3 className="font-display font-semibold text-text-primary mb-1">Revenue by Zone</h3>
             <p className="text-xs text-text-muted mb-5">Monthly revenue and growth by area</p>
@@ -318,9 +306,9 @@ export default function ForecastPage() {
             </div>
           </Card>
 
-          {/* ─── Right Column ─── */}
+          {/* right column */}
           <div className="space-y-6">
-            {/* Revenue by Type */}
+            {/* revenue by type */}
             <Card>
               <h3 className="font-display font-semibold text-text-primary mb-1">Revenue by Event Type</h3>
               <p className="text-xs text-text-muted mb-5">This month&apos;s revenue split</p>
@@ -348,7 +336,7 @@ export default function ForecastPage() {
               </div>
             </Card>
 
-            {/* Booking Funnel */}
+            {/* booking funnel */}
             <Card>
               <h3 className="font-display font-semibold text-text-primary mb-1">Conversion Funnel</h3>
               <p className="text-xs text-text-muted mb-5">Monthly user journey progression</p>

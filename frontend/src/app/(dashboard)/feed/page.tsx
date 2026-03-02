@@ -1,8 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════
-   Gaya — Live Activity Feed
-   Real-time platform-wide activity stream with filtering,
-   user action tracking, and live updates.
-   ═══════════════════════════════════════════════════════════════════════ */
+// live activity feed - real-time platform activity stream with filtering and live updates
 
 'use client';
 
@@ -15,7 +11,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────────
 
 type Category = 'all' | 'leads' | 'bookings' | 'reviews' | 'events' | 'coaches' | 'system';
 
@@ -35,7 +30,6 @@ interface FeedItem {
   isNew: boolean;
 }
 
-// ─── Mock Data ──────────────────────────────────────────────────────
 
 const feedItems: FeedItem[] = [
   { id: '1', type: 'lead', category: 'leads', title: 'New Lead', description: 'Emily R. requested info about Spring Elite Camp in Scarborough', actor: 'Emily R.', actorAvatar: 'ER', time: '12 seconds ago', zone: 'Scarborough', icon: UserPlus, iconColor: 'text-blue-400', isNew: true },
@@ -58,7 +52,6 @@ const liveStats = {
   today: { leads: 12, bookings: 8, revenue: 4280, reviews: 3 },
 };
 
-// ─── Page ───────────────────────────────────────────────────────────
 
 export default function LiveFeedPage() {
   const [category, setCategory] = useState<Category>('all');
@@ -79,7 +72,7 @@ export default function LiveFeedPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
@@ -104,7 +97,7 @@ export default function LiveFeedPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-6">
-        {/* Today's Summary */}
+        {/* today's summary */}
         <div className="grid grid-cols-4 gap-4 mb-6">
           {[
             { label: 'Leads Today', value: liveStats.today.leads.toString(), icon: UserPlus, color: 'text-blue-400' },
@@ -121,7 +114,7 @@ export default function LiveFeedPage() {
         </div>
 
         <div className="grid grid-cols-12 gap-6">
-          {/* Categories */}
+          {/* categories */}
           <div className="col-span-3 space-y-1">
             <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">Categories</h3>
             {categories.map(c => (
@@ -137,7 +130,7 @@ export default function LiveFeedPage() {
             ))}
           </div>
 
-          {/* Feed */}
+          {/* feed */}
           <div className="col-span-9 space-y-1">
             {newCount > 0 && (
               <div className="p-2 rounded-lg bg-atlas-500/5 border border-atlas-500/15 text-center mb-2">
@@ -148,13 +141,13 @@ export default function LiveFeedPage() {
             {filtered.map(item => (
               <div key={item.id} className={cn('flex items-start gap-3 p-4 rounded-xl border transition-all',
                 item.isNew ? 'bg-slate-50 border-slate-200' : 'bg-slate-50/40 border-slate-200')}>
-                {/* Icon */}
+                {/* icon */}
                 <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center shrink-0',
                   item.isNew ? 'bg-slate-100' : 'bg-slate-50')}>
                   <item.icon className={cn('w-4 h-4', item.iconColor)} />
                 </div>
 
-                {/* Content */}
+                {/* content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     {item.isNew && <div className="w-1.5 h-1.5 rounded-full bg-atlas-500 shrink-0" />}
@@ -168,7 +161,7 @@ export default function LiveFeedPage() {
                   <p className="text-[10px] text-text-muted mt-0.5">{item.description}</p>
                 </div>
 
-                {/* Right */}
+                {/* right */}
                 <div className="text-right shrink-0">
                   <p className="text-[10px] text-text-muted">{item.time}</p>
                   {item.amount && (

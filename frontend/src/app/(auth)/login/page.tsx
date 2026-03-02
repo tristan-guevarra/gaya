@@ -9,10 +9,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'sonner';
+import Image from 'next/image';
 import { Button, Input, Card } from '@/components/ui';
 import { useAuthStore } from '@/lib/auth';
 import { authApi } from '@/lib/api';
-import { Mail, Lock, ArrowRight } from 'lucide-react';
+import { Mail, Lock, ArrowRight, Shield, Users, Activity } from 'lucide-react';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -70,10 +71,10 @@ export default function LoginPage() {
         {/* logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-4">
-            <span className="font-display font-bold text-2xl text-text-primary tracking-tight">Gaya</span>
+            <Image src="/logo.png" alt="Gaya" width={160} height={52} className="h-14 w-auto" />
           </Link>
           <h1 className="font-display font-bold text-2xl text-text-primary">Welcome back</h1>
-          <p className="text-sm text-text-muted mt-1">Sign in to Gaya</p>
+          <p className="text-sm text-text-muted mt-1">Sign in to your account</p>
         </div>
 
         <Card className="!p-8 !bg-white/60 !backdrop-blur-sm !border !border-white/60 !shadow-xl !shadow-blue-900/5">
@@ -114,17 +115,17 @@ export default function LoginPage() {
             </div>
             <div className="mt-4 grid grid-cols-3 gap-2">
               {[
-                { role: 'admin', label: 'Admin', emoji: '👑' },
-                { role: 'coach', label: 'Coach', emoji: '⚽' },
-                { role: 'athlete', label: 'Athlete', emoji: '🏃' },
+                { role: 'admin', label: 'Admin', icon: Shield },
+                { role: 'coach', label: 'Coach', icon: Users },
+                { role: 'athlete', label: 'Athlete', icon: Activity },
               ].map((demo) => (
                 <button
                   key={demo.role}
                   onClick={() => demoLogin(demo.role)}
                   disabled={loading}
-                  className="flex flex-col items-center gap-1 px-3 py-2.5 rounded-xl bg-white/50 backdrop-blur-sm hover:bg-white/70 border border-white/60 transition-all text-xs text-text-secondary disabled:opacity-50"
+                  className="flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-xl bg-white/50 backdrop-blur-sm hover:bg-white/70 border border-white/60 transition-all text-xs text-text-secondary disabled:opacity-50"
                 >
-                  <span className="text-lg">{demo.emoji}</span>
+                  <demo.icon className="w-4 h-4 text-atlas-400" />
                   {demo.label}
                 </button>
               ))}

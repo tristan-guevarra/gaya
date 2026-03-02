@@ -1,10 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════
-   Gaya — AI Coach Matching
-   Intelligent matching algorithm pairing athletes with ideal
-   coaches based on skills, location, availability, price,
-   teaching style, and personality. Interactive interface with
-   compatibility scores, explanations, and side-by-side compare.
-   ═══════════════════════════════════════════════════════════════════════ */
+// ai coach matching - pairs athletes with coaches based on skills, location, availability, and compatibility
 
 'use client';
 
@@ -17,7 +11,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────────
 
 interface MatchFactor {
   name: string;
@@ -48,7 +41,6 @@ interface CoachMatch {
   repeatRate: number;
 }
 
-// ─── Mock Data ──────────────────────────────────────────────────────
 
 const athleteProfile = {
   name: 'Alex W.', age: 12, position: 'Midfielder', level: 'Intermediate → Elite',
@@ -129,7 +121,6 @@ const matches: CoachMatch[] = [
   },
 ];
 
-// ─── Helpers ────────────────────────────────────────────────────────
 
 function getScoreColor(score: number) {
   if (score >= 90) return 'text-green-400';
@@ -145,7 +136,6 @@ function getScoreRing(score: number) {
   return 'from-red-500 to-orange-400';
 }
 
-// ─── Page ───────────────────────────────────────────────────────────
 
 export default function CoachMatchingPage() {
   const [selectedMatch, setSelectedMatch] = useState<CoachMatch>(matches[0]);
@@ -156,7 +146,7 @@ export default function CoachMatchingPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
@@ -179,7 +169,7 @@ export default function CoachMatchingPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-6">
-        {/* Athlete Profile Summary */}
+        {/* athlete profile summary */}
         <div className="p-5 rounded-xl bg-purple-500/5 border border-purple-500/15 mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -205,7 +195,7 @@ export default function CoachMatchingPage() {
         </div>
 
         <div className="grid grid-cols-12 gap-6">
-          {/* Left: Match Results */}
+          {/* left: match results */}
           <div className="col-span-5 space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold text-text-primary flex items-center gap-1.5">
@@ -221,7 +211,7 @@ export default function CoachMatchingPage() {
                     ? 'bg-atlas-500/5 border-atlas-500/20'
                     : 'bg-white border-slate-200 hover:border-white/[0.1]')}>
                 <div className="flex items-start gap-3">
-                  {/* Score Ring */}
+                  {/* score ring */}
                   <div className="relative w-14 h-14 shrink-0">
                     <svg className="w-14 h-14 -rotate-90" viewBox="0 0 56 56">
                       <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth="4" />
@@ -261,9 +251,9 @@ export default function CoachMatchingPage() {
             ))}
           </div>
 
-          {/* Right: Match Detail */}
+          {/* right: match detail */}
           <div className="col-span-7 space-y-4">
-            {/* Coach Header */}
+            {/* coach header */}
             <div className="p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-4">
@@ -291,7 +281,7 @@ export default function CoachMatchingPage() {
                 </div>
               </div>
 
-              {/* Quick Info */}
+              {/* quick info */}
               <div className="grid grid-cols-4 gap-3 mt-4">
                 {[
                   { label: 'Price', value: selectedMatch.price, icon: DollarSign },
@@ -307,7 +297,7 @@ export default function CoachMatchingPage() {
                 ))}
               </div>
 
-              {/* Action Buttons */}
+              {/* action buttons */}
               <div className="flex items-center gap-3 mt-4">
                 <button className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-atlas-500 to-cyan-400 text-sm font-semibold text-white hover:opacity-90 transition-all">
                   <Zap className="w-4 h-4" /> Book Session
@@ -321,7 +311,7 @@ export default function CoachMatchingPage() {
               </div>
             </div>
 
-            {/* Match Factors Breakdown */}
+            {/* match factors breakdown */}
             <div className="p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-semibold text-text-primary flex items-center gap-1.5">
@@ -364,7 +354,7 @@ export default function CoachMatchingPage() {
                 ))}
               </div>
 
-              {/* Weighted Score Calculation */}
+              {/* weighted score calculation */}
               <div className="mt-4 p-3 rounded-lg bg-white/40 border border-white/60">
                 <p className="text-[10px] text-text-muted/50 mb-1">Score Calculation</p>
                 <p className="text-[10px] font-mono text-text-muted">
@@ -373,7 +363,7 @@ export default function CoachMatchingPage() {
               </div>
             </div>
 
-            {/* Languages & Style */}
+            {/* languages & style */}
             <div className="grid grid-cols-2 gap-4">
               <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
                 <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">Teaching Style</h3>

@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════
-   Gaya — Workflow Automations
-   Visual IFTTT-style automation builder with trigger/action
-   cards, pre-built templates, execution logs, and AI-suggested
-   automations for event management and lead nurturing.
-   ═══════════════════════════════════════════════════════════════════════ */
+// workflow automations - ifttt-style automation builder with triggers, actions, execution logs, and ai suggestions
 
 'use client';
 
@@ -18,7 +13,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────────
 
 type AutomationStatus = 'active' | 'paused' | 'draft' | 'error';
 
@@ -44,7 +38,6 @@ interface Automation {
   category: string;
 }
 
-// ─── Mock Data ──────────────────────────────────────────────────────
 
 const automations: Automation[] = [
   {
@@ -113,7 +106,6 @@ const executionLog = [
   { automation: 'Churn Risk', status: 'error', time: '1 week ago', details: 'Failed to schedule call — calendar API timeout' },
 ];
 
-// ─── Page ───────────────────────────────────────────────────────────
 
 export default function WorkflowAutomationsPage() {
   const [selectedAutomation, setSelectedAutomation] = useState<Automation>(automations[0]);
@@ -128,7 +120,7 @@ export default function WorkflowAutomationsPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
@@ -152,7 +144,7 @@ export default function WorkflowAutomationsPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-6">
-        {/* Summary */}
+        {/* summary */}
         <div className="grid grid-cols-4 gap-4 mb-6">
           {[
             { label: 'Active Automations', value: automations.filter(a => a.status === 'active').length.toString(), icon: Play, color: 'text-green-400' },
@@ -168,7 +160,7 @@ export default function WorkflowAutomationsPage() {
           ))}
         </div>
 
-        {/* Execution Log (conditional) */}
+        {/* execution log (conditional) */}
         {showLog && (
           <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 mb-6 animate-fade-in">
             <h3 className="text-sm font-semibold text-text-primary mb-3">Recent Executions</h3>
@@ -192,7 +184,7 @@ export default function WorkflowAutomationsPage() {
         )}
 
         <div className="grid grid-cols-12 gap-6">
-          {/* Left: Automation List */}
+          {/* left: automation list */}
           <div className="col-span-5 space-y-3">
             {automations.map(auto => {
               const sc = statusConfig[auto.status];
@@ -220,7 +212,7 @@ export default function WorkflowAutomationsPage() {
             })}
           </div>
 
-          {/* Right: Automation Detail / Visual Builder */}
+          {/* right: automation detail / visual builder */}
           <div className="col-span-7 space-y-4">
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <div className="flex items-center justify-between mb-4">
@@ -241,11 +233,11 @@ export default function WorkflowAutomationsPage() {
                 </div>
               </div>
 
-              {/* Visual Flow */}
+              {/* visual flow */}
               <div className="space-y-0">
                 {selectedAutomation.steps.map((step, i) => (
                   <div key={i}>
-                    {/* Step Card */}
+                    {/* step card */}
                     <div className={cn('p-4 rounded-xl border', step.color)}>
                       <div className="flex items-center gap-3">
                         <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', step.color)}>
@@ -264,7 +256,7 @@ export default function WorkflowAutomationsPage() {
                       </div>
                     </div>
 
-                    {/* Connector */}
+                    {/* connector */}
                     {i < selectedAutomation.steps.length - 1 && (
                       <div className="flex items-center justify-center py-1">
                         <div className="w-px h-6 bg-white/[0.1]" />
@@ -274,7 +266,7 @@ export default function WorkflowAutomationsPage() {
                   </div>
                 ))}
 
-                {/* Add Step */}
+                {/* add step */}
                 <div className="flex items-center justify-center pt-2">
                   <button className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-dashed border-white/[0.1] text-[10px] text-text-muted hover:border-white/[0.2] hover:text-text-secondary transition-all">
                     <Plus className="w-3 h-3" /> Add Step
@@ -283,7 +275,7 @@ export default function WorkflowAutomationsPage() {
               </div>
             </div>
 
-            {/* Stats */}
+            {/* stats */}
             <div className="grid grid-cols-3 gap-3">
               <div className="p-4 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 text-center">
                 <p className="text-xl font-display font-bold text-text-primary">{selectedAutomation.runs.toLocaleString()}</p>
@@ -299,7 +291,7 @@ export default function WorkflowAutomationsPage() {
               </div>
             </div>
 
-            {/* AI Suggestion */}
+            {/* ai suggestion */}
             <div className="p-4 rounded-xl bg-purple-500/5 border border-purple-500/15">
               <div className="flex items-center gap-2 mb-2">
                 <Sparkles className="w-4 h-4 text-purple-400" />

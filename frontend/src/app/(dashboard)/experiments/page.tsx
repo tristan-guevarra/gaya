@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════
-   Gaya — A/B Testing Lab
-   Run experiments on pricing, timing, and copy. Statistical
-   significance tracking, variant comparison, experiment
-   history, and visual results dashboard.
-   ═══════════════════════════════════════════════════════════════════════ */
+// a/b testing lab - experiments on pricing, timing, and copy with statistical significance tracking
 
 'use client';
 
@@ -17,7 +12,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────────
 
 type ExperimentStatus = 'running' | 'completed' | 'paused' | 'draft';
 type ExperimentType = 'pricing' | 'timing' | 'copy' | 'capacity' | 'channel';
@@ -48,7 +42,6 @@ interface Experiment {
   uplift?: number;
 }
 
-// ─── Mock Data ──────────────────────────────────────────────────────
 
 const experiments: Experiment[] = [
   {
@@ -104,7 +97,6 @@ const experiments: Experiment[] = [
   },
 ];
 
-// ─── Page ───────────────────────────────────────────────────────────
 
 export default function ABTestingPage() {
   const [selectedExperiment, setSelectedExperiment] = useState<Experiment>(experiments[0]);
@@ -129,7 +121,7 @@ export default function ABTestingPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
@@ -147,7 +139,7 @@ export default function ABTestingPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-6">
-        {/* Summary Cards */}
+        {/* summary cards */}
         <div className="grid grid-cols-4 gap-4 mb-6">
           {[
             { label: 'Active Experiments', value: experiments.filter(e => e.status === 'running').length.toString(), color: 'text-green-400', icon: Play },
@@ -164,9 +156,9 @@ export default function ABTestingPage() {
         </div>
 
         <div className="grid grid-cols-12 gap-6">
-          {/* Left: Experiment List */}
+          {/* left: experiment list */}
           <div className="col-span-5 space-y-3">
-            {/* Filters */}
+            {/* filters */}
             <div className="flex gap-1.5">
               {(['all', 'running', 'completed', 'paused'] as const).map(s => (
                 <button key={s} onClick={() => setStatusFilter(s)}
@@ -199,7 +191,7 @@ export default function ABTestingPage() {
                     <span>{exp.confidence.toFixed(1)}% confidence</span>
                     <span>{exp.zone}</span>
                   </div>
-                  {/* Traffic bar */}
+                  {/* traffic bar */}
                   <div className="flex items-center gap-2 mt-2">
                     <div className="flex-1 h-1.5 rounded-full bg-slate-100 overflow-hidden">
                       <div className={cn('h-full rounded-full', exp.traffic >= 95 ? 'bg-green-500' : 'bg-atlas-500')}
@@ -212,9 +204,9 @@ export default function ABTestingPage() {
             })}
           </div>
 
-          {/* Right: Experiment Detail */}
+          {/* right: experiment detail */}
           <div className="col-span-7 space-y-4">
-            {/* Header */}
+            {/* header */}
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
@@ -239,7 +231,7 @@ export default function ABTestingPage() {
               <h2 className="text-base font-display font-bold text-text-primary">{selectedExperiment.name}</h2>
               <p className="text-xs text-text-muted mt-1">{selectedExperiment.description}</p>
 
-              {/* Confidence Meter */}
+              {/* confidence meter */}
               <div className="mt-4 p-3 rounded-lg bg-slate-50">
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-[10px] font-medium text-text-secondary">Statistical Confidence</span>
@@ -264,11 +256,11 @@ export default function ABTestingPage() {
               </div>
             </div>
 
-            {/* Variant Comparison */}
+            {/* variant comparison */}
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-4">Variant Comparison</h3>
 
-              {/* Visual bars */}
+              {/* visual bars */}
               <div className="space-y-4 mb-6">
                 {selectedExperiment.variants.map((v, i) => {
                   const maxRate = Math.max(...selectedExperiment.variants.map(x => x.convRate));
@@ -296,7 +288,7 @@ export default function ABTestingPage() {
                 })}
               </div>
 
-              {/* Data Table */}
+              {/* data table */}
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-slate-200">
@@ -337,7 +329,7 @@ export default function ABTestingPage() {
               </table>
             </div>
 
-            {/* AI Recommendation */}
+            {/* ai recommendation */}
             {selectedExperiment.confidence >= 80 && (
               <div className="p-4 rounded-xl bg-purple-500/5 border border-purple-500/15">
                 <div className="flex items-center gap-2 mb-2">

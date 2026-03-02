@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker
 from app.core.config import settings
 
 
-# ─── Async engine (for FastAPI endpoints) ─────────────────
+# async engine (for fastapi endpoints)
 async_engine = create_async_engine(
     settings.DATABASE_URL,
     echo=settings.DEBUG,
@@ -24,7 +24,7 @@ AsyncSessionLocal = async_sessionmaker(
     expire_on_commit=False,
 )
 
-# ─── Sync engine (for Celery workers + Alembic) ──────────
+# sync engine (for celery workers + alembic)
 sync_engine = create_engine(
     settings.DATABASE_URL_SYNC,
     echo=False,
@@ -34,12 +34,12 @@ sync_engine = create_engine(
 SyncSessionLocal = sessionmaker(bind=sync_engine)
 
 
-# ─── Base model class ────────────────────────────────────
+# base model class
 class Base(DeclarativeBase):
     pass
 
 
-# ─── Dependency for FastAPI ──────────────────────────────
+# dependency for fastapi
 async def get_db() -> AsyncSession:
     async with AsyncSessionLocal() as session:
         try:

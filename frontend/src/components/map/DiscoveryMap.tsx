@@ -1,8 +1,4 @@
-/* ═══════════════════════════════════════════════════════════
-   Gaya — Discovery Map Component
-   Full-screen Leaflet map with light tiles, custom markers,
-   heatmap overlay, and popup cards
-   ═══════════════════════════════════════════════════════════ */
+// discovery map - leaflet map with custom markers, heatmap overlay, and popup cards
 
 'use client';
 
@@ -12,16 +8,16 @@ import 'leaflet/dist/leaflet.css';
 import type { MapMarker, HeatmapLayer } from '@/types';
 import { formatPrice, getEventTypeInfo } from '@/lib/utils';
 
-// ─── Constants ────────────────────────────────────────────
+// constants
 
 const TORONTO_CENTER: [number, number] = [43.6895, -79.3832];
 const DEFAULT_ZOOM = 11;
 
-// CartoDB Positron tiles — clean light basemap
+// cartodb positron tiles - clean light basemap
 const TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 const TILE_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>';
 
-// ─── Marker Icon Factory ──────────────────────────────────
+// marker icon factory
 
 function createMarkerIcon(type: string, eventType?: string): L.DivIcon {
   const colors: Record<string, string> = {
@@ -64,7 +60,7 @@ function createMarkerIcon(type: string, eventType?: string): L.DivIcon {
   });
 }
 
-// ─── Popup Content Factory ────────────────────────────────
+// popup content factory
 
 function createPopupContent(marker: MapMarker): string {
   const typeInfo = getEventTypeInfo(marker.event_type || 'event');
@@ -109,7 +105,7 @@ function createPopupContent(marker: MapMarker): string {
   `;
 }
 
-// ─── Map Component ────────────────────────────────────────
+// map component
 
 interface DiscoveryMapProps {
   markers: MapMarker[];
@@ -134,7 +130,7 @@ export function DiscoveryMap({
   const containerRef = useRef<HTMLDivElement>(null);
   const [mapReady, setMapReady] = useState(false);
 
-  // Initialize map
+  // initialize map
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
 
@@ -145,22 +141,22 @@ export function DiscoveryMap({
       attributionControl: false,
     });
 
-    // Light tiles
+    // light tiles
     L.tileLayer(TILE_URL, {
       attribution: TILE_ATTRIBUTION,
       maxZoom: 19,
     }).addTo(map);
 
-    // Zoom control bottom-right
+    // zoom control bottom-right
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    // Attribution bottom-left
+    // attribution bottom-left
     L.control.attribution({ position: 'bottomleft', prefix: false }).addTo(map);
 
-    // Marker layer group
+    // marker layer group
     markersLayerRef.current = L.layerGroup().addTo(map);
 
-    // Map move handler
+    // map move handler
     map.on('moveend', () => {
       const center = map.getCenter();
       const zoom = map.getZoom();
@@ -176,7 +172,7 @@ export function DiscoveryMap({
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Update markers
+  // update markers
   useEffect(() => {
     if (!mapReady || !markersLayerRef.current) return;
 
@@ -198,11 +194,11 @@ export function DiscoveryMap({
     });
   }, [markers, mapReady, onMarkerClick]);
 
-  // Update heatmap overlay
+  // update heatmap overlay
   useEffect(() => {
     if (!mapReady || !mapRef.current) return;
 
-    // Remove existing
+    // remove existing
     if (heatmapLayerRef.current) {
       mapRef.current.removeLayer(heatmapLayerRef.current);
       heatmapLayerRef.current = null;
@@ -259,7 +255,7 @@ export function DiscoveryMap({
     <div className={`relative ${className}`}>
       <div ref={containerRef} className="w-full h-full" />
 
-      {/* Map overlay gradient at top for navbar blend */}
+      {/* map overlay gradient at top for navbar blend */}
       <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-white/60 to-transparent pointer-events-none z-[400]" />
     </div>
   );

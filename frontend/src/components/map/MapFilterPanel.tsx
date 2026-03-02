@@ -1,7 +1,4 @@
-/* ═══════════════════════════════════════════════════════════
-   Gaya — Map Filters Component
-   Collapsible filter panel with search, layer toggles
-   ═══════════════════════════════════════════════════════════ */
+// map filter panel - collapsible filters with search and layer toggles
 
 'use client';
 
@@ -72,7 +69,7 @@ export function MapFilterPanel({
 
   return (
     <div className="absolute top-4 left-4 z-[500] w-[340px] max-h-[calc(100vh-120px)] flex flex-col">
-      {/* ─── Search Bar ─── */}
+      {/* search bar */}
       <div className="glass-card p-3 mb-2">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
@@ -95,7 +92,7 @@ export function MapFilterPanel({
           </div>
         </div>
 
-        {/* Result count + actions */}
+        {/* result count + actions */}
         <div className="flex items-center justify-between mt-2.5 px-1">
           <div className="flex items-center gap-2">
             <span className="text-xs text-text-muted">
@@ -141,7 +138,7 @@ export function MapFilterPanel({
         </div>
       </div>
 
-      {/* ─── Layer Selector ─── */}
+      {/* layer selector */}
       {showLayers && (
         <div className="glass-card p-3 mb-2 animate-slide-up">
           <p className="text-[10px] font-medium text-text-muted uppercase tracking-wider mb-2 px-1">
@@ -183,10 +180,10 @@ export function MapFilterPanel({
         </div>
       )}
 
-      {/* ─── Filters Panel ─── */}
+      {/* filters panel */}
       {expanded && (
         <div className="glass-card p-4 overflow-y-auto animate-slide-up">
-          {/* Event Type */}
+          {/* event type */}
           <div className="mb-5">
             <p className="text-[10px] font-medium text-text-muted uppercase tracking-wider mb-2">
               Training Type
@@ -210,7 +207,7 @@ export function MapFilterPanel({
             </div>
           </div>
 
-          {/* Skill Level */}
+          {/* skill level */}
           <div className="mb-5">
             <p className="text-[10px] font-medium text-text-muted uppercase tracking-wider mb-2">
               Skill Level
@@ -234,7 +231,7 @@ export function MapFilterPanel({
             </div>
           </div>
 
-          {/* Age Range */}
+          {/* age range */}
           <div className="mb-5">
             <p className="text-[10px] font-medium text-text-muted uppercase tracking-wider mb-2">
               Age Range
@@ -262,7 +259,7 @@ export function MapFilterPanel({
             </div>
           </div>
 
-          {/* Price Range */}
+          {/* price range */}
           <div className="mb-5">
             <p className="text-[10px] font-medium text-text-muted uppercase tracking-wider mb-2">
               Price Range (CAD)
@@ -286,7 +283,7 @@ export function MapFilterPanel({
             </div>
           </div>
 
-          {/* Radius */}
+          {/* radius */}
           <div className="mb-5">
             <p className="text-[10px] font-medium text-text-muted uppercase tracking-wider mb-2">
               Distance
@@ -309,7 +306,7 @@ export function MapFilterPanel({
             </div>
           </div>
 
-          {/* Availability toggle */}
+          {/* availability toggle */}
           <label className="flex items-center gap-3 px-1 cursor-pointer group">
             <div className="relative">
               <input

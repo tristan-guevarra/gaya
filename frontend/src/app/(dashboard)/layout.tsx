@@ -4,6 +4,7 @@
 
 import { useState, useMemo, type ReactNode } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard, Map, Users, Calendar, TrendingUp, BarChart3,
@@ -148,12 +149,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         {/* logo */}
         <div className="flex items-center gap-2 px-4 h-14 border-b border-white/30 shrink-0">
           {!collapsed ? (
-            <div className="min-w-0">
-              <p className="text-base font-display font-bold text-text-primary truncate tracking-tight">Gaya</p>
-              <p className="text-[9px] text-text-muted truncate">Intelligence Platform</p>
-            </div>
+            <Image src="/logo.png" alt="Gaya" width={160} height={50} className="h-11 w-auto" />
           ) : (
-            <span className="text-sm font-display font-bold text-text-primary">G</span>
+            <Image src="/logo.png" alt="Gaya" width={28} height={28} className="h-7 w-7 object-contain" />
           )}
         </div>
 
@@ -190,7 +188,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                           'flex items-center gap-2.5 rounded-lg transition-all relative',
                           collapsed ? 'justify-center p-2.5' : 'px-2.5 py-1.5',
                           isActive
-                            ? 'bg-atlas-500/10 text-atlas-400'
+                            ? 'bg-atlas-400/10 text-atlas-500'
                             : 'text-text-muted hover:text-text-secondary hover:bg-white/40'
                         )}>
                         <item.icon className={cn('shrink-0', collapsed ? 'w-4 h-4' : 'w-3.5 h-3.5')} />

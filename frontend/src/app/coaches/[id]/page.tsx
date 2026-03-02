@@ -1,8 +1,4 @@
-/* ═══════════════════════════════════════════════════════════
-   Gaya — Coach Profile Page
-   SEO-friendly coach detail with reviews, schedule grid,
-   location map, stats, certification badges, and booking CTA
-   ═══════════════════════════════════════════════════════════ */
+// coach profile page
 
 'use client';
 
@@ -17,8 +13,6 @@ import {
   ArrowLeft, Bookmark, Zap, BadgeCheck
 } from 'lucide-react';
 import type { Coach, CoachReview, TrainingEvent, EventType } from '@/types';
-
-// ─── Mock Coach Data ──────────────────────────────────────
 
 const MOCK_COACH: Coach & {
   tagline: string;
@@ -133,8 +127,6 @@ const MOCK_EVENTS: TrainingEvent[] = [
   },
 ];
 
-// ─── Schedule Grid ────────────────────────────────────────
-
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const SCHEDULE: Record<string, { time: string; label: string; type: EventType }[]> = {
   Mon: [{ time: '4:00 PM', label: 'Private', type: 'private' }],
@@ -146,8 +138,6 @@ const SCHEDULE: Record<string, { time: string; label: string; type: EventType }[
   Sun: [{ time: '10:00 AM', label: 'Camp', type: 'camp' }],
 };
 
-// ─── Rating Distribution ─────────────────────────────────
-
 const RATING_DIST = [
   { stars: 5, count: 108, pct: 0.85 },
   { stars: 4, count: 14, pct: 0.11 },
@@ -156,15 +146,11 @@ const RATING_DIST = [
   { stars: 1, count: 0, pct: 0 },
 ];
 
-// ─── Type Color Map ───────────────────────────────────────
-
 const typeColors: Record<EventType, string> = {
   camp: 'bg-blue-500/15 text-blue-400 border-blue-500/20',
   clinic: 'bg-amber-500/15 text-amber-400 border-amber-500/20',
   private: 'bg-purple-500/15 text-purple-400 border-purple-500/20',
 };
-
-// ─── Page Component ───────────────────────────────────────
 
 export default function CoachProfilePage() {
   const coach = MOCK_COACH;
@@ -180,7 +166,7 @@ export default function CoachProfilePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* ─── Breadcrumb ─── */}
+      {/* breadcrumb */}
       <div className="border-b border-slate-200">
         <div className="max-w-[1200px] mx-auto px-6 py-3">
           <div className="flex items-center gap-2 text-xs text-text-muted">
@@ -195,15 +181,15 @@ export default function CoachProfilePage() {
         </div>
       </div>
 
-      {/* ─── Hero Section ─── */}
+      {/* hero section */}
       <div className="relative overflow-hidden">
-        {/* Gradient backdrop */}
+        {/* gradient backdrop */}
         <div className="absolute inset-0 bg-gradient-to-b from-atlas-500/5 via-transparent to-transparent" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-atlas-500/3 rounded-full blur-[120px]" />
 
         <div className="relative max-w-[1200px] mx-auto px-6 pt-10 pb-8">
           <div className="flex flex-col md:flex-row gap-8">
-            {/* Avatar */}
+            {/* avatar */}
             <div className="shrink-0">
               <div className="relative">
                 <div className="w-36 h-36 rounded-3xl bg-gradient-to-br from-atlas-500/20 to-blue-500/20 flex items-center justify-center text-5xl font-display font-bold text-atlas-400 border border-slate-200">
@@ -217,7 +203,7 @@ export default function CoachProfilePage() {
               </div>
             </div>
 
-            {/* Info */}
+            {/* info */}
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -233,7 +219,7 @@ export default function CoachProfilePage() {
                   </div>
                   <p className="text-text-secondary mb-3">{coach.tagline}</p>
 
-                  {/* Rating + Meta */}
+                  {/* rating + meta */}
                   <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
                     <span className="flex items-center gap-1.5">
                       <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
@@ -252,7 +238,7 @@ export default function CoachProfilePage() {
                   </div>
                 </div>
 
-                {/* Action buttons (desktop) */}
+                {/* action buttons (desktop) */}
                 <div className="hidden md:flex items-center gap-2 shrink-0">
                   <button
                     onClick={() => setSaved(!saved)}
@@ -271,7 +257,7 @@ export default function CoachProfilePage() {
                 </div>
               </div>
 
-              {/* Specialties */}
+              {/* specialties */}
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {coach.specialties.map((s) => (
                   <span key={s} className="px-2.5 py-1 rounded-lg bg-white border border-slate-200/60 shadow-sm text-xs text-text-secondary">
@@ -284,7 +270,7 @@ export default function CoachProfilePage() {
         </div>
       </div>
 
-      {/* ─── Stats Bar ─── */}
+      {/* stats bar */}
       <div className="border-y border-slate-200 bg-slate-50/30">
         <div className="max-w-[1200px] mx-auto px-6 py-5">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
@@ -309,7 +295,7 @@ export default function CoachProfilePage() {
         </div>
       </div>
 
-      {/* ─── Tabs ─── */}
+      {/* tabs */}
       <div className="border-b border-slate-200 sticky top-0 bg-gray-50/80 backdrop-blur-xl z-10">
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="flex gap-0">
@@ -341,14 +327,14 @@ export default function CoachProfilePage() {
         </div>
       </div>
 
-      {/* ─── Content ─── */}
+      {/* content */}
       <div className="max-w-[1200px] mx-auto px-6 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Content (2/3) */}
+          {/* main content */}
           <div className="lg:col-span-2 space-y-8">
             {activeTab === 'about' && (
               <>
-                {/* Bio */}
+                {/* bio */}
                 <Card>
                   <h2 className="font-display font-semibold text-lg text-text-primary mb-4">About</h2>
                   <div className="prose-sm text-text-secondary leading-relaxed whitespace-pre-line">
@@ -356,7 +342,7 @@ export default function CoachProfilePage() {
                   </div>
                 </Card>
 
-                {/* Certifications */}
+                {/* certifications */}
                 <Card>
                   <h2 className="font-display font-semibold text-lg text-text-primary mb-4">Certifications & Credentials</h2>
                   <div className="space-y-3">
@@ -372,7 +358,7 @@ export default function CoachProfilePage() {
                   </div>
                 </Card>
 
-                {/* Weekly Schedule */}
+                {/* weekly schedule */}
                 <Card>
                   <h2 className="font-display font-semibold text-lg text-text-primary mb-4">Weekly Schedule</h2>
                   <div className="grid grid-cols-7 gap-1.5">
@@ -400,7 +386,7 @@ export default function CoachProfilePage() {
                   </div>
                 </Card>
 
-                {/* Locations */}
+                {/* locations */}
                 <Card>
                   <h2 className="font-display font-semibold text-lg text-text-primary mb-4">Training Locations</h2>
                   <div className="space-y-3">
@@ -478,7 +464,7 @@ export default function CoachProfilePage() {
                         </div>
                       </div>
 
-                      {/* Capacity bar */}
+                      {/* capacity bar */}
                       <div className="mb-4">
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-xs text-text-muted">
@@ -516,10 +502,10 @@ export default function CoachProfilePage() {
 
             {activeTab === 'reviews' && (
               <>
-                {/* Rating Summary */}
+                {/* rating summary */}
                 <Card>
                   <div className="flex flex-col md:flex-row gap-8">
-                    {/* Big rating */}
+                    {/* big rating */}
                     <div className="flex flex-col items-center justify-center md:border-r md:border-slate-200 md:pr-10">
                       <p className="text-5xl font-display font-bold text-text-primary mb-1">{avgRating}</p>
                       <div className="flex items-center gap-0.5 mb-1">
@@ -535,7 +521,7 @@ export default function CoachProfilePage() {
                       <p className="text-xs text-text-muted">{coach.review_count} reviews</p>
                     </div>
 
-                    {/* Distribution bars */}
+                    {/* distribution bars */}
                     <div className="flex-1 space-y-2">
                       {RATING_DIST.map((r) => (
                         <div key={r.stars} className="flex items-center gap-3">
@@ -554,7 +540,7 @@ export default function CoachProfilePage() {
                   </div>
                 </Card>
 
-                {/* Reviews */}
+                {/* reviews */}
                 <div className="space-y-4">
                   {MOCK_REVIEWS.map((review) => (
                     <Card key={review.id}>
@@ -600,9 +586,9 @@ export default function CoachProfilePage() {
             )}
           </div>
 
-          {/* ─── Sidebar (1/3) ─── */}
+          {/* sidebar */}
           <div className="space-y-6">
-            {/* Booking CTA */}
+            {/* booking cta */}
             <Card className="!border-atlas-500/15 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-atlas-500/5 rounded-full blur-[40px]" />
               <div className="relative">
@@ -631,7 +617,7 @@ export default function CoachProfilePage() {
               </div>
             </Card>
 
-            {/* Languages */}
+            {/* languages */}
             <Card padding="sm">
               <h3 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">Languages</h3>
               <div className="flex flex-wrap gap-1.5">
@@ -643,7 +629,7 @@ export default function CoachProfilePage() {
               </div>
             </Card>
 
-            {/* Quick Stats */}
+            {/* quick stats */}
             <Card padding="sm">
               <h3 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">Quick Facts</h3>
               <div className="space-y-3">
@@ -663,7 +649,7 @@ export default function CoachProfilePage() {
               </div>
             </Card>
 
-            {/* Social */}
+            {/* social */}
             {(coach.social.instagram || coach.social.website) && (
               <Card padding="sm">
                 <h3 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">Connect</h3>
@@ -682,7 +668,7 @@ export default function CoachProfilePage() {
               </Card>
             )}
 
-            {/* Report */}
+            {/* report */}
             <div className="text-center">
               <button className="text-[10px] text-text-muted hover:text-text-secondary transition-colors">
                 Report this profile

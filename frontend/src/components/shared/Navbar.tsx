@@ -1,13 +1,10 @@
-/* ═══════════════════════════════════════════════════════════
-   Gaya — Navigation Bar (Extended)
-   Clean navbar with mega-nav dropdown, auth state,
-   role-based visibility, and mobile menu
-   ═══════════════════════════════════════════════════════════ */
+// navbar with auth state, role-based visibility, and mobile menu
 
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/lib/auth';
 import { cn } from '@/lib/utils';
@@ -38,7 +35,7 @@ export default function Navbar() {
   const { user, isAuthenticated, logout } = useAuthStore();
   const profileRef = useRef<HTMLDivElement>(null);
 
-  // Close profile dropdown on outside click
+  // close profile dropdown on outside click
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
@@ -60,12 +57,12 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 bg-white/20 backdrop-blur-xl border-b border-white/30 shadow-lg shadow-black/5">
       <div className="max-w-[1400px] mx-auto px-6">
         <div className="flex items-center justify-between h-16">
-          {/* ─── Logo ─── */}
+          {/* logo */}
           <Link href="/" className="flex items-center gap-1.5 group">
-            <span className="font-display font-bold text-xl text-text-primary tracking-tight">Gaya</span>
+            <Image src="/logo.png" alt="Gaya" width={200} height={64} className="h-[48px] w-auto" />
           </Link>
 
-          {/* ─── Desktop Nav ─── */}
+          {/* desktop nav */}
           <div className="hidden lg:flex items-center gap-1">
             {visibleItems.map((item) => {
               const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
@@ -87,7 +84,7 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* ─── Right Side ─── */}
+          {/* right side */}
           <div className="flex items-center gap-2">
             {isAuthenticated && user ? (
               <div ref={profileRef} className="relative">
@@ -153,7 +150,7 @@ export default function Navbar() {
               </div>
             )}
 
-            {/* ─── Mobile Menu Button ─── */}
+            {/* mobile menu button */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="lg:hidden w-10 h-10 rounded-xl bg-white/40 flex items-center justify-center text-text-muted hover:text-text-secondary transition-all"
@@ -163,7 +160,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ─── Mobile Nav ─── */}
+        {/* mobile nav */}
         {mobileOpen && (
           <div className="lg:hidden py-4 border-t border-white/30 animate-slide-up">
             <div className="space-y-1">

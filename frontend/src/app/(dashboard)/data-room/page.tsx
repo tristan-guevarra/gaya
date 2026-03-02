@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════
-   Gaya — Investor Data Room
-   Series B-ready metrics dashboard: ARR waterfall, unit economics,
-   market sizing TAM/SAM/SOM, cohort LTV, and fundraising narrative.
-   Designed to impress VCs during due diligence.
-   ═══════════════════════════════════════════════════════════════════ */
+// investor data room - series b metrics, arr waterfall, unit economics, tam/sam/som, and cohort ltv
 
 'use client';
 
@@ -17,7 +12,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────
 
 type Tab = 'overview' | 'unit-economics' | 'market' | 'growth';
 
@@ -31,7 +25,6 @@ interface MetricCard {
   footnote?: string;
 }
 
-// ─── Mock Data ──────────────────────────────────────────────────
 
 const HEADLINE_METRICS: MetricCard[] = [
   { label: 'Annual Recurring Revenue', value: '$2.21M', change: '+142%', up: true, icon: DollarSign, accent: 'text-green-400', footnote: 'YoY' },
@@ -90,7 +83,6 @@ const GROWTH_LEVERS = [
   { icon: Sparkles, title: 'AI Expansion Intelligence', desc: 'Upsell intelligence tier at 2.5x ARPU. 40% attach rate projected.', impact: 'Medium', confidence: 74 },
 ];
 
-// ─── Page Component ─────────────────────────────────────────────
 
 export default function DataRoomPage() {
   const [activeTab, setActiveTab] = useState<Tab>('overview');
@@ -107,7 +99,7 @@ export default function DataRoomPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
@@ -138,7 +130,7 @@ export default function DataRoomPage() {
             </div>
           </div>
 
-          {/* Tabs */}
+          {/* tabs */}
           <div className="flex gap-1 mt-5">
             {tabs.map(tab => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)}
@@ -154,10 +146,10 @@ export default function DataRoomPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-6">
 
-        {/* ═══ OVERVIEW TAB ═══ */}
+        {/* overview tab */}
         {activeTab === 'overview' && (
           <div className="space-y-6 animate-fade-in">
-            {/* Headline Metrics */}
+            {/* headline metrics */}
             <div className="grid grid-cols-3 gap-3">
               {HEADLINE_METRICS.map(m => (
                 <div key={m.label} className="p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 hover:border-white/[0.1] transition-all group">
@@ -179,7 +171,7 @@ export default function DataRoomPage() {
               ))}
             </div>
 
-            {/* ARR Growth Chart */}
+            {/* arr growth chart */}
             <div className="p-5 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -208,7 +200,7 @@ export default function DataRoomPage() {
               </div>
             </div>
 
-            {/* ARR Waterfall */}
+            {/* arr waterfall */}
             <div className="p-5 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-4">ARR Bridge (FY 2025 → 2026)</h3>
               <div className="flex items-end gap-3 h-48">
@@ -252,10 +244,10 @@ export default function DataRoomPage() {
           </div>
         )}
 
-        {/* ═══ UNIT ECONOMICS TAB ═══ */}
+        {/* unit economics tab */}
         {activeTab === 'unit-economics' && (
           <div className="space-y-6 animate-fade-in">
-            {/* Unit Econ Grid */}
+            {/* unit econ grid */}
             <div className="grid grid-cols-4 gap-3">
               {UNIT_ECONOMICS.map(m => (
                 <div key={m.label} className="p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 hover:border-white/[0.1] transition-all">
@@ -266,7 +258,7 @@ export default function DataRoomPage() {
               ))}
             </div>
 
-            {/* LTV:CAC Visual */}
+            {/* ltv:cac visual */}
             <div className="p-5 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-4">LTV:CAC Ratio Progression</h3>
               <div className="space-y-3">
@@ -299,7 +291,7 @@ export default function DataRoomPage() {
               </div>
             </div>
 
-            {/* Cohort Retention Matrix */}
+            {/* cohort retention matrix */}
             <div className="p-5 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-4">Revenue Retention by Cohort</h3>
               <div className="overflow-x-auto">
@@ -344,10 +336,10 @@ export default function DataRoomPage() {
           </div>
         )}
 
-        {/* ═══ MARKET TAB ═══ */}
+        {/* market tab */}
         {activeTab === 'market' && (
           <div className="space-y-6 animate-fade-in">
-            {/* TAM / SAM / SOM */}
+            {/* tam / sam / som */}
             <div className="p-5 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-5">Total Addressable Market</h3>
               <div className="space-y-4">
@@ -372,7 +364,7 @@ export default function DataRoomPage() {
               </div>
             </div>
 
-            {/* Market Expansion Map */}
+            {/* market expansion map */}
             <div className="grid grid-cols-2 gap-4">
               <div className="p-5 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
                 <h3 className="text-sm font-semibold text-text-primary mb-3">Current Markets</h3>
@@ -426,7 +418,7 @@ export default function DataRoomPage() {
               </div>
             </div>
 
-            {/* Competitive Moats */}
+            {/* competitive moats */}
             <div className="p-5 rounded-2xl bg-gradient-to-br from-atlas-500/5 via-slate-50/60 to-purple-500/5 backdrop-blur-xl border border-atlas-500/10">
               <h3 className="text-sm font-semibold text-text-primary mb-3 flex items-center gap-2">
                 <Shield className="w-4 h-4 text-atlas-400" /> Competitive Moats
@@ -447,10 +439,10 @@ export default function DataRoomPage() {
           </div>
         )}
 
-        {/* ═══ GROWTH TAB ═══ */}
+        {/* growth tab */}
         {activeTab === 'growth' && (
           <div className="space-y-6 animate-fade-in">
-            {/* Growth Levers */}
+            {/* growth levers */}
             <div className="space-y-3">
               {GROWTH_LEVERS.map(lever => (
                 <div key={lever.title} className="p-5 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 hover:border-white/[0.1] transition-all group">
@@ -478,7 +470,7 @@ export default function DataRoomPage() {
               ))}
             </div>
 
-            {/* Funding Ask */}
+            {/* funding ask */}
             <div className="p-6 rounded-2xl bg-gradient-to-r from-atlas-500/10 via-slate-50/60 to-purple-500/10 backdrop-blur-xl border border-atlas-500/15">
               <div className="flex items-center gap-3 mb-4">
                 <Rocket className="w-5 h-5 text-atlas-400" />

@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════
-   Gaya — Live Collaboration Presence
-   Figma-style presence system showing active users, cursors,
-   live editing indicators, and real-time activity sidebar.
-   Can be embedded in any dashboard page.
-   ═══════════════════════════════════════════════════════════════════ */
+// live collaboration presence - figma-style active users, cursors, live editing indicators, and activity sidebar
 
 'use client';
 
@@ -14,7 +9,6 @@ import {
 import { cn } from '@/lib/utils';
 import { PRESENCE_USERS, LIVE_ACTIVITIES } from '@/components/collaboration/PresenceBar';
 
-// ─── Full Collaboration Page ────────────────────────────────────
 
 export default function CollaborationPage() {
   return (
@@ -29,7 +23,7 @@ export default function CollaborationPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-6 grid grid-cols-3 gap-6">
-        {/* Team Members */}
+        {/* team members */}
         <div className="col-span-2 space-y-4">
           <h2 className="text-sm font-semibold text-text-primary">Team Members</h2>
           <div className="grid grid-cols-2 gap-3">
@@ -75,7 +69,7 @@ export default function CollaborationPage() {
           </div>
         </div>
 
-        {/* Activity Sidebar */}
+        {/* activity sidebar */}
         <div className="space-y-4">
           <h2 className="text-sm font-semibold text-text-primary">Live Activity Feed</h2>
           <div className="rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 overflow-hidden">
@@ -101,7 +95,7 @@ export default function CollaborationPage() {
             </div>
           </div>
 
-          {/* Connection Status */}
+          {/* connection status */}
           <div className="p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
             <div className="flex items-center gap-2 mb-2">
               <Wifi className="w-4 h-4 text-green-400" />

@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════
-   Gaya — API Playground
-   Interactive API testing console with endpoint explorer,
-   request builder, response viewer, code generation, and
-   authentication helpers.
-   ═══════════════════════════════════════════════════════════════════ */
+// api playground - interactive api testing console with endpoint explorer, request builder, and code generation
 
 'use client';
 
@@ -15,7 +10,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────
 
 interface Endpoint {
   id: string;
@@ -31,10 +25,9 @@ interface Endpoint {
   latency: number;
 }
 
-// ─── Endpoint Catalog ───────────────────────────────────────────
 
 const ENDPOINTS: Endpoint[] = [
-  // Discovery
+  // discovery
   { id: 'e1', method: 'GET', path: '/api/v1/map/listings', description: 'Search listings with geo filters', category: 'Discovery', auth: false,
     params: [
       { name: 'lat', type: 'number', required: true, description: 'Latitude center' },
@@ -58,7 +51,7 @@ const ENDPOINTS: Endpoint[] = [
       id: "coach_abc123", name: "Marcus Thompson", title: "Elite Youth Development Coach", rating: 4.97, reviews_count: 234, verified: true, zones: ["Scarborough East", "North York"], specialties: ["Technical Skills", "Goalkeeping"], events_active: 5, fill_rate_avg: 0.98, tier: "legend", xp: 84200
     }, null, 2), statusCode: 200, latency: 87
   },
-  // Intelligence
+  // intelligence
   { id: 'e3', method: 'GET', path: '/api/v1/intelligence/zones', description: 'Get all zone metrics with scores', category: 'Intelligence', auth: true,
     params: [
       { name: 'min_score', type: 'number', required: false, description: 'Filter by min opportunity score' },
@@ -84,7 +77,7 @@ const ENDPOINTS: Endpoint[] = [
       ]
     }, null, 2), statusCode: 200, latency: 456
   },
-  // ML / Simulator
+  // ml / simulator
   { id: 'e5', method: 'POST', path: '/api/v1/simulator/predict', description: 'Predict fill rate for a proposed event', category: 'ML / Simulator', auth: true,
     body: JSON.stringify({ zone: "882a91", event_type: "camp", capacity: 40, price: 299, duration_days: 5, start_date: "2026-07-07", age_range: [8, 14] }, null, 2),
     exampleResponse: JSON.stringify({
@@ -98,14 +91,14 @@ const ENDPOINTS: Endpoint[] = [
       recommendations: ["Consider starting July 7 for optimal timing", "Price at $299 hits the sweet spot for this zone"]
     }, null, 2), statusCode: 200, latency: 892
   },
-  // Auth
+  // auth
   { id: 'e6', method: 'POST', path: '/api/v1/auth/login', description: 'Authenticate and get JWT tokens', category: 'Auth', auth: false,
     body: JSON.stringify({ email: "coach@example.com", password: "••••••••" }, null, 2),
     exampleResponse: JSON.stringify({
       access_token: "eyJhbGciOiJIUzI1NiIs...", refresh_token: "eyJhbGciOiJIUzI1NiIs...", token_type: "bearer", expires_in: 3600, user: { id: "usr_abc123", email: "coach@example.com", role: "org_admin", org_id: "org_xyz" }
     }, null, 2), statusCode: 200, latency: 156
   },
-  // Leads
+  // leads
   { id: 'e7', method: 'POST', path: '/api/v1/leads', description: 'Submit a new lead / waitlist request', category: 'Leads', auth: false,
     body: JSON.stringify({ name: "Jennifer Park", email: "jennifer@email.com", event_id: "evt_12345", type: "camp", child_age: 12, message: "Interested in summer camp", location: { lat: 43.76, lng: -79.22 } }, null, 2),
     exampleResponse: JSON.stringify({
@@ -114,7 +107,6 @@ const ENDPOINTS: Endpoint[] = [
   },
 ];
 
-// ─── Method Badge ───────────────────────────────────────────────
 
 const METHOD_STYLES: Record<string, string> = {
   GET: 'bg-green-500/15 text-green-400 border-green-500/20',
@@ -124,7 +116,6 @@ const METHOD_STYLES: Record<string, string> = {
   PATCH: 'bg-purple-500/15 text-purple-400 border-purple-500/20',
 };
 
-// ─── Code Generators ────────────────────────────────────────────
 
 function generateCurl(endpoint: Endpoint): string {
   let cmd = `curl -X ${endpoint.method}`;
@@ -160,7 +151,6 @@ function generateJS(endpoint: Endpoint): string {
   return code;
 }
 
-// ─── Page Component ─────────────────────────────────────────────
 
 export default function APIPlaygroundPage() {
   const [selected, setSelected] = useState<Endpoint>(ENDPOINTS[0]);
@@ -191,7 +181,7 @@ export default function APIPlaygroundPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* ═══ Sidebar: Endpoint Explorer ═══ */}
+      {/* sidebar: endpoint explorer */}
       <div className="w-72 shrink-0 border-r border-slate-200 bg-slate-50/30 overflow-y-auto">
         <div className="px-4 py-4 border-b border-slate-200">
           <div className="flex items-center gap-2 mb-2">
@@ -223,9 +213,9 @@ export default function APIPlaygroundPage() {
         ))}
       </div>
 
-      {/* ═══ Main Content ═══ */}
+      {/* main content */}
       <div className="flex-1 overflow-y-auto">
-        {/* Endpoint Header */}
+        {/* endpoint header */}
         <div className="px-8 py-6 border-b border-slate-200">
           <div className="flex items-center gap-3 mb-2">
             <span className={cn('px-2 py-1 rounded-lg text-xs font-mono font-bold border', METHOD_STYLES[selected.method])}>
@@ -242,7 +232,7 @@ export default function APIPlaygroundPage() {
         </div>
 
         <div className="px-8 py-6 space-y-6">
-          {/* Parameters */}
+          {/* parameters */}
           {selected.params && selected.params.length > 0 && (
             <div>
               <h3 className="text-sm font-semibold text-text-primary mb-3">Parameters</h3>
@@ -269,7 +259,7 @@ export default function APIPlaygroundPage() {
             </div>
           )}
 
-          {/* Request Body */}
+          {/* request body */}
           {selected.body && (
             <div>
               <h3 className="text-sm font-semibold text-text-primary mb-3">Request Body</h3>
@@ -279,7 +269,7 @@ export default function APIPlaygroundPage() {
             </div>
           )}
 
-          {/* Run Button */}
+          {/* run button */}
           <div className="flex items-center gap-3">
             <button onClick={handleRun} disabled={isRunning}
               className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-atlas-500 text-white text-sm font-bold hover:bg-atlas-400 transition-all disabled:opacity-50 shadow-lg shadow-atlas-500/20">
@@ -294,7 +284,7 @@ export default function APIPlaygroundPage() {
             )}
           </div>
 
-          {/* Response */}
+          {/* response */}
           {showResponse && (
             <div>
               <div className="flex items-center justify-between mb-3">
@@ -311,7 +301,7 @@ export default function APIPlaygroundPage() {
             </div>
           )}
 
-          {/* Code Snippets */}
+          {/* code snippets */}
           <div>
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-semibold text-text-primary">Code Snippet</h3>

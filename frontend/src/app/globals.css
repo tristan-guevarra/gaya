@@ -12,21 +12,16 @@
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   Gaya — Global Styles
-   Clean, professional light theme
-   ═══════════════════════════════════════════════════════════════ */
-
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+/* global styles - clean light theme */
 
 :root {
   --font-display: 'Outfit', system-ui, sans-serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --atlas-primary: #3b82f6;
-  --atlas-primary-dim: rgba(59, 130, 246, 0.10);
-  --atlas-primary-glow: rgba(59, 130, 246, 0.20);
+  --atlas-primary: #8B9CF7;
+  --atlas-primary-dim: rgba(139, 156, 247, 0.10);
+  --atlas-primary-glow: rgba(139, 156, 247, 0.20);
   --midnight-bg: #f9fafb;
   --midnight-surface: #f8fafc;
   --midnight-elevated: #f1f5f9;
@@ -36,8 +31,8 @@
   --text-muted: #94a3b8;
   --danger: #ef4444;
   --warning: #f59e0b;
-  --info: #3b82f6;
-  --gradient-bg: linear-gradient(180deg, #bfdbfe 0%, #c7d2fe 15%, #ddd6fe 30%, #e0e7ff 45%, #dbeafe 55%, #e0e7ff 70%, #c7d2fe 85%, #bfdbfe 100%);
+  --info: #8B9CF7;
+  --gradient-bg: linear-gradient(180deg, #dde3f8 0%, #d5d8f5 15%, #d0d0f2 30%, #d8daf5 45%, #dde3f8 55%, #d8daf5 70%, #d5d8f5 85%, #dde3f8 100%);
 }
 
 * {
@@ -57,7 +52,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ─── Scrollbar ─── */
+/* scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -73,7 +68,7 @@ body {
   background: rgba(0, 0, 0, 0.2);
 }
 
-/* ─── Leaflet Overrides for Light Theme ─── */
+/* leaflet overrides for light theme */
 .leaflet-container {
   background: #f8fafc !important;
   font-family: var(--font-body) !important;
@@ -119,7 +114,7 @@ body {
   color: var(--text-muted) !important;
 }
 
-/* ─── Custom Marker Styles ─── */
+/* custom marker styles */
 .atlas-marker {
   width: 32px;
   height: 32px;
@@ -139,11 +134,11 @@ body {
 }
 
 .atlas-marker--coach {
-  background: #3b82f6;
+  background: #8B9CF7;
 }
 
 .atlas-marker--camp {
-  background: #6366f1;
+  background: #7C5FC7;
 }
 
 .atlas-marker--clinic {
@@ -151,7 +146,7 @@ body {
 }
 
 .atlas-marker--private {
-  background: #8b5cf6;
+  background: #7C5FC7;
 }
 
 .atlas-marker__icon {
@@ -159,14 +154,14 @@ body {
   font-size: 14px;
 }
 
-/* ─── Frosted Glass Cards ─── */
+/* frosted glass cards */
 .glass-card {
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(30, 58, 138, 0.05);
+  box-shadow: 0 4px 20px rgba(124, 95, 199, 0.05);
 }
 
 .glass-card-hover {
@@ -176,30 +171,30 @@ body {
 .glass-card-hover:hover {
   background: rgba(255, 255, 255, 0.75);
   border-color: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 8px 32px rgba(30, 58, 138, 0.08);
+  box-shadow: 0 8px 32px rgba(124, 95, 199, 0.08);
   transform: translateY(-2px);
 }
 
-/* ─── Gradient text ─── */
+/* gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #7CB3F2 0%, #8B9CF7 50%, #7C5FC7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* ─── Heatmap legend gradient ─── */
+/* heatmap legend gradient */
 .heatmap-gradient {
   background: linear-gradient(90deg,
     #172554 0%,
-    #3b82f6 25%,
+    #8B9CF7 25%,
     #f59e0b 50%,
     #ef4444 75%,
     #dc2626 100%
   );
 }
 
-/* ─── Animated border ─── */
+/* animated border */
 @keyframes borderRotate {
   0% { --angle: 0deg; }
   100% { --angle: 360deg; }
@@ -220,7 +215,7 @@ body {
   animation: borderRotate 4s linear infinite;
 }
 
-/* ─── Pulse dot for live indicators ─── */
+/* pulse dot for live indicators */
 .pulse-dot {
   width: 8px;
   height: 8px;
@@ -243,16 +238,16 @@ body {
   100% { transform: scale(2); opacity: 0; }
 }
 
-/* ─── Selection ─── */
+/* selection */
 ::selection {
-  background: rgba(59, 130, 246, 0.2);
+  background: rgba(139, 156, 247, 0.2);
   color: #0f172a;
 }
 
-/* ─── Input focus ring ─── */
+/* input focus ring */
 input:focus, select:focus, textarea:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 0 2px rgba(139, 156, 247, 0.3);
 }
 
 @layer utilities {

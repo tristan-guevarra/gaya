@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════
-   Gaya — Certification Tracker
-   Coach credential management with license tracking, expiry
-   alerts, compliance scoring, verification badges, and
-   renewal workflows.
-   ═══════════════════════════════════════════════════════════════════════ */
+// certification tracker - coach credential management with license tracking, expiry alerts, and compliance scoring
 
 'use client';
 
@@ -16,7 +11,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────────
 
 interface Certification {
   id: string;
@@ -40,7 +34,6 @@ interface Coach {
   lastAudit: string;
 }
 
-// ─── Mock Data ──────────────────────────────────────────────────────
 
 const coaches: Coach[] = [
   {
@@ -87,7 +80,6 @@ const coaches: Coach[] = [
   },
 ];
 
-// ─── Helpers ────────────────────────────────────────────────────────
 
 const statusConfig: Record<string, { icon: React.ElementType; color: string; bg: string; label: string }> = {
   valid: { icon: CheckCircle, color: 'text-green-400', bg: 'bg-green-500/10', label: 'Valid' },
@@ -102,7 +94,6 @@ function getComplianceColor(score: number) {
   return 'text-red-400';
 }
 
-// ─── Page ───────────────────────────────────────────────────────────
 
 export default function CertificationsPage() {
   const [selectedCoach, setSelectedCoach] = useState(coaches[0]);
@@ -118,7 +109,7 @@ export default function CertificationsPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
@@ -136,7 +127,7 @@ export default function CertificationsPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-6">
-        {/* Summary */}
+        {/* summary */}
         <div className="grid grid-cols-4 gap-4 mb-6">
           {[
             { label: 'Total Certifications', value: totalCerts.toString(), icon: FileText, color: 'text-blue-400' },
@@ -153,7 +144,7 @@ export default function CertificationsPage() {
         </div>
 
         <div className="grid grid-cols-12 gap-6">
-          {/* Coach List */}
+          {/* coach list */}
           <div className="col-span-4 space-y-2">
             <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">Coaches</h3>
             {coaches.map(coach => (
@@ -182,7 +173,7 @@ export default function CertificationsPage() {
                     <p className="text-[8px] text-text-muted">compliance</p>
                   </div>
                 </div>
-                {/* Cert status dots */}
+                {/* cert status dots */}
                 <div className="flex gap-1 mt-2">
                   {coach.certifications.map(cert => {
                     const s = statusConfig[cert.status];
@@ -197,9 +188,9 @@ export default function CertificationsPage() {
             ))}
           </div>
 
-          {/* Cert Details */}
+          {/* cert details */}
           <div className="col-span-8 space-y-4">
-            {/* Coach Header */}
+            {/* coach header */}
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -224,7 +215,7 @@ export default function CertificationsPage() {
               </div>
             </div>
 
-            {/* Filters */}
+            {/* filters */}
             <div className="flex gap-1.5">
               {(['all', 'expiring', 'expired', 'pending'] as const).map(f => (
                 <button key={f} onClick={() => setFilter(f)}
@@ -235,7 +226,7 @@ export default function CertificationsPage() {
               ))}
             </div>
 
-            {/* Certifications */}
+            {/* certifications */}
             <div className="space-y-2">
               {filteredCerts.map(cert => {
                 const status = statusConfig[cert.status];

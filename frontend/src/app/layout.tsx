@@ -1,7 +1,4 @@
-/* ═══════════════════════════════════════════════════════════
-   Gaya — Root Layout
-   Clean root — each route group handles its own navigation.
-   ═══════════════════════════════════════════════════════════ */
+// root layout
 
 import type { Metadata } from 'next';
 import { Toaster } from 'sonner';

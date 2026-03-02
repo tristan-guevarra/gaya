@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════
-   Gaya — Financial Modeling
-   Unit economics calculator with LTV:CAC, burn rate, revenue
-   waterfall, margin analysis, and funding runway. Investor-
-   grade financial projections dashboard.
-   ═══════════════════════════════════════════════════════════════════════ */
+// financial modeling - unit economics, ltv:cac, burn rate, revenue waterfall, and funding runway
 
 'use client';
 
@@ -16,11 +11,9 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────────
 
 type Tab = 'unit-economics' | 'projections' | 'runway';
 
-// ─── Mock Data ──────────────────────────────────────────────────────
 
 const unitEconomics = {
   ltv: 2840,
@@ -70,7 +63,6 @@ const projections = [
   { quarter: 'Q1 2026', revenue: 312000, customers: 1140, arr: 1248000 },
 ];
 
-// ─── Page ───────────────────────────────────────────────────────────
 
 export default function FinancialModelingPage() {
   const [tab, setTab] = useState<Tab>('unit-economics');
@@ -85,7 +77,7 @@ export default function FinancialModelingPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
@@ -114,10 +106,10 @@ export default function FinancialModelingPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-6">
-        {/* ═══ Unit Economics ═══ */}
+        {/* unit economics */}
         {tab === 'unit-economics' && (
           <div className="space-y-6 animate-fade-in">
-            {/* Key Metrics */}
+            {/* key metrics */}
             <div className="grid grid-cols-4 gap-4">
               {[
                 { label: 'LTV', value: `$${unitEconomics.ltv.toLocaleString()}`, sub: 'Lifetime Value', icon: BadgeDollarSign, color: 'text-green-400' },
@@ -134,7 +126,7 @@ export default function FinancialModelingPage() {
               ))}
             </div>
 
-            {/* LTV:CAC Visual */}
+            {/* ltv:cac visual */}
             <div className="p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-4">LTV vs CAC Visualization</h3>
               <div className="flex items-end gap-8 justify-center h-48">
@@ -156,7 +148,7 @@ export default function FinancialModelingPage() {
               </p>
             </div>
 
-            {/* Margins + ARPU */}
+            {/* margins + arpu */}
             <div className="grid grid-cols-3 gap-4">
               <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 text-center">
                 <p className="text-3xl font-display font-bold text-green-400">{unitEconomics.grossMargin}%</p>
@@ -177,7 +169,7 @@ export default function FinancialModelingPage() {
               </div>
             </div>
 
-            {/* Cost Breakdown */}
+            {/* cost breakdown */}
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-4">Cost Breakdown</h3>
               <div className="flex h-6 rounded-full overflow-hidden mb-4">
@@ -200,10 +192,10 @@ export default function FinancialModelingPage() {
           </div>
         )}
 
-        {/* ═══ Projections ═══ */}
+        {/* projections */}
         {tab === 'projections' && (
           <div className="space-y-6 animate-fade-in">
-            {/* Revenue Chart */}
+            {/* revenue chart */}
             <div className="p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-4">Monthly Revenue vs Costs</h3>
               <div className="flex items-end gap-2 h-52">
@@ -230,7 +222,7 @@ export default function FinancialModelingPage() {
               </div>
             </div>
 
-            {/* Quarterly Projections */}
+            {/* quarterly projections */}
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-4">Forward Projections</h3>
               <div className="grid grid-cols-4 gap-3">
@@ -250,10 +242,10 @@ export default function FinancialModelingPage() {
           </div>
         )}
 
-        {/* ═══ Runway ═══ */}
+        {/* runway */}
         {tab === 'runway' && (
           <div className="space-y-6 animate-fade-in">
-            {/* Runway Summary */}
+            {/* runway summary */}
             <div className="p-6 rounded-xl bg-green-500/5 border border-green-500/15 text-center">
               <Sparkles className="w-8 h-8 text-green-400 mx-auto mb-2" />
               <h2 className="text-2xl font-display font-bold text-green-400">Cash Flow Positive 🎉</h2>
@@ -275,7 +267,7 @@ export default function FinancialModelingPage() {
               ))}
             </div>
 
-            {/* Cash Flow Projection */}
+            {/* cash flow projection */}
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-4">12-Month Cash Projection</h3>
               <div className="flex items-end gap-2 h-40">

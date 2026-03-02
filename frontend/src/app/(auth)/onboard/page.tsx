@@ -9,6 +9,7 @@ import {
   Star, Clock, DollarSign, Upload, Plus, X,
   CheckCircle, Sparkles, ArrowRight
 } from 'lucide-react';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Card, Badge, Button } from '@/components/ui';
 
@@ -205,7 +206,7 @@ export default function OnboardPage() {
           <div className="w-8 h-8 rounded-lg bg-atlas-500/15 flex items-center justify-center">
             <Globe className="w-4 h-4 text-atlas-400" />
           </div>
-          <span className="font-display font-bold text-text-primary">Gaya</span>
+          <Image src="/logo.png" alt="Gaya" width={130} height={40} className="h-10 w-auto" />
         </div>
 
         <div className="flex-1">

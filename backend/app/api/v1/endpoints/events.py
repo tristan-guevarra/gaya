@@ -21,7 +21,7 @@ from app.services.geo_service import lat_lng_to_h3
 router = APIRouter(tags=["Events & Leads"])
 
 
-# ─── Events ──────────────────────────────────────────────
+# events
 @router.get("/events", response_model=List[EventResponse])
 async def list_events(
     sport: Optional[str] = None,
@@ -101,7 +101,7 @@ async def create_event(
     db.add(event)
     await db.flush()
 
-    # Add occurrences
+    # add occurrences
     for occ in req.occurrences:
         db.add(EventOccurrence(
             event_id=event.id,
@@ -152,7 +152,7 @@ async def update_event(
     return EventResponse.model_validate(event)
 
 
-# ─── Leads ────────────────────────────────────────────────
+# leads
 @router.post("/leads", response_model=LeadResponse, status_code=201)
 async def create_lead(req: LeadCreate, db: AsyncSession = Depends(get_db)):
     """Public: submit a lead (request info / join waitlist)."""
@@ -183,7 +183,7 @@ async def create_lead(req: LeadCreate, db: AsyncSession = Depends(get_db)):
     return LeadResponse.model_validate(lead)
 
 
-# ─── Favorites ────────────────────────────────────────────
+# favorites
 @router.post("/favorites/{entity_type}/{entity_id}", status_code=201)
 async def add_favorite(
     entity_type: str,  # coach | event

@@ -1,8 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════
-   Gaya — ⌘K Command Bar
-   Spotlight/Raycast-style command palette with fuzzy search,
-   keyboard navigation, recent commands, and AI integration
-   ═══════════════════════════════════════════════════════════════ */
+// cmd+k command bar - spotlight-style command palette with fuzzy search and keyboard nav
 
 'use client';
 
@@ -17,7 +13,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────
+// types
 
 type CommandCategory = 'navigation' | 'actions' | 'search' | 'ai' | 'recent';
 
@@ -33,13 +29,13 @@ interface CommandItem {
   badge?: string;
 }
 
-// ─── Command Registry ───────────────────────────────────────
+// command registry
 
 function useCommands() {
   const router = useRouter();
 
   return useMemo<CommandItem[]>(() => [
-    // ── Navigation ──
+    // navigation
     { id: 'nav-map', label: 'Discovery Map', description: 'Find training near you', icon: Map, category: 'navigation', keywords: ['map', 'discover', 'find', 'search', 'training'], action: () => router.push('/map'), shortcut: 'G M' },
     { id: 'nav-intelligence', label: 'Intelligence Dashboard', description: 'Supply & demand analytics', icon: BarChart3, category: 'navigation', keywords: ['intelligence', 'analytics', 'dashboard', 'supply', 'demand'], action: () => router.push('/intelligence'), shortcut: 'G I' },
     { id: 'nav-simulator', label: 'What-If Simulator', description: 'Model new camp scenarios', icon: Zap, category: 'navigation', keywords: ['simulator', 'what-if', 'model', 'predict', 'scenario'], action: () => router.push('/simulator'), shortcut: 'G S' },
@@ -51,13 +47,13 @@ function useCommands() {
     { id: 'nav-discover', label: 'Discovery Feed', description: 'Swipe through training', icon: Sparkles, category: 'navigation', keywords: ['discover', 'feed', 'swipe', 'browse', 'explore'], action: () => router.push('/discover') },
     { id: 'nav-settings', label: 'Settings', description: 'Account & preferences', icon: Settings, category: 'navigation', keywords: ['settings', 'preferences', 'account', 'profile', 'notification'], action: () => router.push('/settings') },
 
-    // ── Actions ──
+    // actions
     { id: 'act-new-event', label: 'Create New Event', description: 'Publish a camp, clinic, or session', icon: Plus, category: 'actions', keywords: ['create', 'new', 'event', 'camp', 'clinic', 'publish'], action: () => router.push('/events/new'), badge: 'Coach' },
     { id: 'act-new-report', label: 'Generate Report', description: 'Create a zone market report', icon: FileText, category: 'actions', keywords: ['generate', 'report', 'create', 'pdf', 'export'], action: () => router.push('/reports/new'), badge: 'Admin' },
     { id: 'act-run-analysis', label: 'Run Zone Analysis', description: 'Compute fresh supply/demand scores', icon: Brain, category: 'actions', keywords: ['run', 'analysis', 'compute', 'refresh', 'recalculate'], action: () => { /* trigger celery task */ }, badge: 'Admin' },
     { id: 'act-export-csv', label: 'Export Data', description: 'Download CSV of current view', icon: ArrowRight, category: 'actions', keywords: ['export', 'csv', 'download', 'data', 'spreadsheet'], action: () => { /* trigger export */ } },
 
-    // ── AI Commands ──
+    // ai commands
     { id: 'ai-underserved', label: 'Show underserved zones', description: 'AI: Find high-demand, low-supply areas', icon: Brain, category: 'ai', keywords: ['underserved', 'gap', 'opportunity', 'ai', 'demand'], action: () => router.push('/intelligence?layer=underserved'), badge: 'AI' },
     { id: 'ai-recommend', label: 'Where should I launch next?', description: 'AI: Top expansion recommendations', icon: Sparkles, category: 'ai', keywords: ['recommend', 'launch', 'expand', 'where', 'best'], action: () => router.push('/intelligence?tab=recommendations'), badge: 'AI' },
     { id: 'ai-forecast-peak', label: 'When is peak demand?', description: 'AI: Seasonal demand forecast', icon: TrendingUp, category: 'ai', keywords: ['peak', 'demand', 'season', 'when', 'forecast'], action: () => router.push('/forecast?highlight=peak'), badge: 'AI' },
@@ -65,7 +61,7 @@ function useCommands() {
   ], [router]);
 }
 
-// ─── Fuzzy Search ───────────────────────────────────────────
+// fuzzy search
 
 function fuzzyMatch(query: string, targets: string[]): number {
   const q = query.toLowerCase();
@@ -75,7 +71,7 @@ function fuzzyMatch(query: string, targets: string[]): number {
     if (t === q) return 100;
     if (t.startsWith(q)) bestScore = Math.max(bestScore, 80);
     if (t.includes(q)) bestScore = Math.max(bestScore, 60);
-    // Fuzzy: check if all chars of query appear in order
+    // fuzzy: check if all chars of query appear in order
     let qi = 0;
     for (let ti = 0; ti < t.length && qi < q.length; ti++) {
       if (t[ti] === q[qi]) qi++;
@@ -85,7 +81,7 @@ function fuzzyMatch(query: string, targets: string[]): number {
   return bestScore;
 }
 
-// ─── Category Labels ────────────────────────────────────────
+// category labels
 
 const CATEGORY_LABELS: Record<CommandCategory, string> = {
   recent: 'Recent',
@@ -97,7 +93,7 @@ const CATEGORY_LABELS: Record<CommandCategory, string> = {
 
 const CATEGORY_ORDER: CommandCategory[] = ['recent', 'ai', 'actions', 'navigation'];
 
-// ─── Component ──────────────────────────────────────────────
+// component
 
 export function CommandBar() {
   const [open, setOpen] = useState(false);
@@ -108,7 +104,7 @@ export function CommandBar() {
   const listRef = useRef<HTMLDivElement>(null);
   const commands = useCommands();
 
-  // Load recent from localStorage
+  // load recent from localstorage
   useEffect(() => {
     try {
       const stored = localStorage.getItem('gaya-cmd-recent');
@@ -116,7 +112,7 @@ export function CommandBar() {
     } catch { /* ignore */ }
   }, []);
 
-  // Global keyboard shortcut: ⌘K or Ctrl+K
+  // global keyboard shortcut: cmd+k or ctrl+k
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -129,7 +125,7 @@ export function CommandBar() {
     return () => window.removeEventListener('keydown', handler);
   }, []);
 
-  // Focus input when opened
+  // focus input when opened
   useEffect(() => {
     if (open) {
       setQuery('');
@@ -138,10 +134,10 @@ export function CommandBar() {
     }
   }, [open]);
 
-  // Filter + sort results
+  // filter + sort results
   const results = useMemo(() => {
     if (!query.trim()) {
-      // Show recent + all categories
+      // show recent + all categories
       const recents: CommandItem[] = recentIds
         .map(id => commands.find(c => c.id === id))
         .filter(Boolean)
@@ -170,21 +166,21 @@ export function CommandBar() {
     return grouped;
   }, [query, commands, recentIds]);
 
-  // Flatten for keyboard navigation
+  // flatten for keyboard navigation
   const flatItems = useMemo(() => {
     const items: CommandItem[] = [];
     for (const cat of CATEGORY_ORDER) {
       const catItems = results.get(cat);
       if (catItems) items.push(...catItems);
     }
-    // Also include any categories not in order
+    // also include any categories not in order
     for (const [cat, catItems] of results) {
       if (!CATEGORY_ORDER.includes(cat)) items.push(...catItems);
     }
     return items;
   }, [results]);
 
-  // Keyboard navigation
+  // keyboard navigation
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -198,15 +194,15 @@ export function CommandBar() {
     }
   }, [flatItems, selectedIndex]);
 
-  // Scroll selected into view
+  // scroll selected into view
   useEffect(() => {
     const el = listRef.current?.querySelector(`[data-index="${selectedIndex}"]`);
     el?.scrollIntoView({ block: 'nearest' });
   }, [selectedIndex]);
 
-  // Execute
+  // execute
   const executeCommand = (cmd: CommandItem) => {
-    // Track recent
+    // track recent
     const newRecent = [cmd.id, ...recentIds.filter(id => id !== cmd.id)].slice(0, 5);
     setRecentIds(newRecent);
     try { localStorage.setItem('gaya-cmd-recent', JSON.stringify(newRecent)); } catch { /* */ }
@@ -221,15 +217,15 @@ export function CommandBar() {
 
   return (
     <>
-      {/* Backdrop */}
+      {/* backdrop */}
       <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm animate-fade-in"
         onClick={() => setOpen(false)} />
 
-      {/* Command Palette */}
+      {/* command palette */}
       <div className="fixed inset-0 z-[101] flex items-start justify-center pt-[15vh] px-4 pointer-events-none">
         <div className="w-full max-w-[580px] pointer-events-auto animate-slide-up">
           <div className="bg-white border border-slate-200 rounded-2xl shadow-2xl shadow-black/8 overflow-hidden">
-            {/* Search Input */}
+            {/* search input */}
             <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-200">
               <Search className="w-5 h-5 text-text-muted shrink-0" />
               <input
@@ -246,7 +242,7 @@ export function CommandBar() {
               </kbd>
             </div>
 
-            {/* Results */}
+            {/* results */}
             <div ref={listRef} className="max-h-[380px] overflow-y-auto py-2 scrollbar-thin">
               {flatItems.length === 0 ? (
                 <div className="px-5 py-8 text-center">
@@ -333,7 +329,7 @@ export function CommandBar() {
               )}
             </div>
 
-            {/* Footer */}
+            {/* footer */}
             <div className="flex items-center justify-between px-5 py-2.5 border-t border-slate-200 bg-slate-50">
               <div className="flex items-center gap-3 text-[10px] text-text-muted/50">
                 <span className="flex items-center gap-1">
@@ -357,7 +353,7 @@ export function CommandBar() {
   );
 }
 
-// ─── Trigger Button (for Navbar) ────────────────────────────
+// trigger button (for navbar)
 
 export function CommandBarTrigger() {
   return (

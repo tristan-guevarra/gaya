@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════
-   Gaya — Content Studio
-   AI-powered marketing content generator. Templates for social
-   posts, emails, ads. Tone selector, platform targeting,
-   content calendar, and generated preview cards.
-   ═══════════════════════════════════════════════════════════════════════ */
+// content studio - ai-powered content generator with templates for social posts, emails, ads, and scheduling
 
 'use client';
 
@@ -17,7 +12,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────────
 
 type ContentType = 'social' | 'email' | 'ad' | 'seo';
 type Platform = 'instagram' | 'twitter' | 'facebook' | 'linkedin';
@@ -38,7 +32,6 @@ interface GeneratedContent {
   timestamp: string;
 }
 
-// ─── Mock Generated Content ─────────────────────────────────────────
 
 const generatedContent: GeneratedContent[] = [
   {
@@ -90,7 +83,6 @@ const contentCalendar = [
   { day: 'Sun', items: [{ type: 'email' as ContentType, title: 'Week Recap', time: '6 PM' }] },
 ];
 
-// ─── Page ───────────────────────────────────────────────────────────
 
 export default function ContentStudioPage() {
   const [activeType, setActiveType] = useState<ContentType>('social');
@@ -134,7 +126,7 @@ export default function ContentStudioPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
@@ -158,9 +150,9 @@ export default function ContentStudioPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-6">
         <div className="grid grid-cols-12 gap-6">
-          {/* ─── Left: Generator ─── */}
+          {/* left: generator */}
           <div className="col-span-5 space-y-4">
-            {/* Content Type */}
+            {/* content type */}
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">Content Type</h3>
               <div className="grid grid-cols-2 gap-2">
@@ -176,7 +168,7 @@ export default function ContentStudioPage() {
               </div>
             </div>
 
-            {/* Platform (for social) */}
+            {/* platform (for social) */}
             {activeType === 'social' && (
               <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
                 <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">Platform</h3>
@@ -197,7 +189,7 @@ export default function ContentStudioPage() {
               </div>
             )}
 
-            {/* Tone */}
+            {/* tone */}
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">Tone</h3>
               <div className="flex gap-2">
@@ -213,7 +205,7 @@ export default function ContentStudioPage() {
               </div>
             </div>
 
-            {/* Prompt */}
+            {/* prompt */}
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">Describe what you need</h3>
               <textarea
@@ -223,7 +215,7 @@ export default function ContentStudioPage() {
                 className="w-full h-28 bg-slate-50 rounded-xl border border-slate-200 px-4 py-3 text-xs text-text-primary placeholder:text-text-muted/50 resize-none outline-none focus:border-purple-500/30"
               />
 
-              {/* Quick Prompts */}
+              {/* quick prompts */}
               <div className="flex flex-wrap gap-1.5 mt-3">
                 {[
                   'New camp announcement',
@@ -255,7 +247,7 @@ export default function ContentStudioPage() {
               </button>
             </div>
 
-            {/* Content Calendar */}
+            {/* content calendar */}
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">This Week&apos;s Calendar</h3>
               <div className="grid grid-cols-7 gap-1">
@@ -279,7 +271,7 @@ export default function ContentStudioPage() {
             </div>
           </div>
 
-          {/* ─── Right: Generated Content ─── */}
+          {/* right: generated content */}
           <div className="col-span-7 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold text-text-primary">Generated Content</h3>
@@ -288,7 +280,7 @@ export default function ContentStudioPage() {
 
             {generatedContent.map(content => (
               <div key={content.id} className="rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 overflow-hidden hover:border-white/[0.1] transition-all">
-                {/* Header */}
+                {/* header */}
                 <div className="flex items-center justify-between px-5 py-3 border-b border-slate-200">
                   <div className="flex items-center gap-2">
                     <span className={cn('px-2 py-0.5 rounded-full text-[10px] font-medium',
@@ -315,7 +307,7 @@ export default function ContentStudioPage() {
                   </div>
                 </div>
 
-                {/* Content */}
+                {/* content */}
                 <div className="px-5 py-4">
                   <h4 className="text-sm font-semibold text-text-primary mb-1">{content.title}</h4>
                   {content.subject && (
@@ -345,7 +337,7 @@ export default function ContentStudioPage() {
                   )}
                 </div>
 
-                {/* Actions */}
+                {/* actions */}
                 <div className="flex items-center gap-2 px-5 py-3 border-t border-slate-200">
                   <button onClick={() => handleCopy(content.id, content.content)}
                     className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5/60 shadow-sm text-[10px] text-text-secondary hover:bg-slate-100">
@@ -365,7 +357,7 @@ export default function ContentStudioPage() {
               </div>
             ))}
 
-            {/* Performance Stats */}
+            {/* performance stats */}
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-4">Content Performance</h3>
               <div className="grid grid-cols-4 gap-3">

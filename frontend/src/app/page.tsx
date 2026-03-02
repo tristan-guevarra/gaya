@@ -1,13 +1,10 @@
-/* ═══════════════════════════════════════════════════════════════
-   Gaya — Landing Page
-   Stunning animated hero with feature showcase, social proof,
-   live demo metrics, and conversion-optimized CTA sections.
-   ═══════════════════════════════════════════════════════════════ */
+// landing page with animated hero, features, and cta sections
 
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   MapPin, Search, BarChart3, Zap, Users, Globe,
   ChevronRight, ArrowRight, Star, Shield, Activity,
@@ -17,7 +14,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Animated Counter ───────────────────────────────────────
+// animated counter
 
 function Counter({ end, suffix = '', prefix = '', duration = 2000 }: {
   end: number; suffix?: string; prefix?: string; duration?: number;
@@ -48,7 +45,7 @@ function Counter({ end, suffix = '', prefix = '', duration = 2000 }: {
   return <span ref={ref}>{prefix}{count.toLocaleString()}{suffix}</span>;
 }
 
-// ─── Live Ping Dot ──────────────────────────────────────────
+// live ping dot
 
 function PingDot() {
   return (
@@ -59,7 +56,7 @@ function PingDot() {
   );
 }
 
-// ─── Feature Card ───────────────────────────────────────────
+// feature card
 
 function FeatureCard({ icon: Icon, title, desc, accent }: {
   icon: React.ElementType; title: string; desc: string; accent: string;
@@ -75,7 +72,7 @@ function FeatureCard({ icon: Icon, title, desc, accent }: {
   );
 }
 
-// ─── Inline Badge ───────────────────────────────────────────
+// inline badge
 
 function LBadge({ variant = 'info', children, className }: { variant?: string; children: React.ReactNode; className?: string }) {
   const styles: Record<string, string> = {
@@ -89,7 +86,7 @@ function LBadge({ variant = 'info', children, className }: { variant?: string; c
   );
 }
 
-// ─── Page Component ─────────────────────────────────────────
+// page component
 
 export default function LandingPage() {
   const [scrollY, setScrollY] = useState(0);
@@ -102,29 +99,36 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen overflow-hidden" style={{ background: 'linear-gradient(180deg, #bfdbfe 0%, #c7d2fe 15%, #ddd6fe 30%, #e0e7ff 45%, #dbeafe 55%, #e0e7ff 70%, #c7d2fe 85%, #bfdbfe 100%)' }}>
-      {/* ═══ Navigation Bar ═══ */}
-      <nav className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-500 backdrop-blur-xl',
-        scrollY > 50 ? 'bg-white/20 border-b border-white/30 shadow-lg shadow-black/5' : 'bg-transparent'
-      )}>
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-1.5">
-            <span className="font-display font-bold text-xl text-text-primary tracking-tight">Gaya</span>
-          </Link>
-          <div className="hidden md:flex items-center gap-6">
-            <a href="#features" className="text-sm text-text-muted hover:text-text-secondary transition-colors">Features</a>
-            <a href="#intelligence" className="text-sm text-text-muted hover:text-text-secondary transition-colors">Intelligence</a>
-          </div>
-          <div className="flex items-center gap-3">
-            <Link href="/login" className="text-sm text-text-muted hover:text-text-secondary transition-colors hidden sm:block">Sign In</Link>
-            <Link href="/map" className="px-4 py-2 rounded-xl bg-atlas-500 text-white text-sm font-semibold hover:bg-atlas-400 transition-all shadow-lg shadow-atlas-500/20">
-              Launch Map →
+      {/* navigation bar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6">
+        <div className={cn(
+          'max-w-5xl mx-auto mt-4 px-4 sm:px-6 py-3 rounded-2xl transition-all duration-500',
+          scrollY > 50
+            ? 'bg-white/70 backdrop-blur-2xl border border-white/60 shadow-xl shadow-black/8'
+            : 'bg-white/40 backdrop-blur-xl border border-white/40 shadow-lg shadow-black/5'
+        )}>
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex items-center shrink-0">
+              <Image src="/logo.png" alt="Gaya" width={220} height={70} className="h-[52px] w-auto" priority />
             </Link>
+            <div className="hidden md:flex items-center gap-1 mx-6">
+              <a href="#features" className="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-white/60 transition-all">Features</a>
+              <a href="#intelligence" className="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-white/60 transition-all">Intelligence</a>
+              <a href="#" className="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-white/60 transition-all">Pricing</a>
+            </div>
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              <Link href="/login" className="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors hidden sm:block">
+                Sign In
+              </Link>
+              <Link href="/map" className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#8B9CF7] to-[#7C5FC7] text-white text-sm font-semibold hover:shadow-lg hover:shadow-purple-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                Get Started
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
 
-      {/* ═══ Hero Section — gradient mesh bg ═══ */}
+      {/* hero section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28">
         <div className="absolute inset-0">
           <div className="absolute top-20 left-1/4 w-[600px] h-[600px] bg-blue-400/25 rounded-full blur-[150px]" style={{ transform: `translateY(${scrollY * -0.1}px)` }} />
@@ -140,7 +144,7 @@ export default function LandingPage() {
 
           <h1 className="font-display font-extrabold text-4xl md:text-6xl lg:text-7xl text-slate-900 leading-[1.1] mb-6">
             Make Field Time<br />
-            <span className="bg-gradient-to-r from-atlas-500 via-indigo-500 to-violet-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#7CB3F2] via-[#8B9CF7] to-[#7C5FC7] bg-clip-text text-transparent">
               Easier to Find
             </span>
           </h1>
@@ -151,7 +155,7 @@ export default function LandingPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <Link href="/map" className="px-8 py-3.5 rounded-2xl bg-atlas-500 text-white font-display font-bold text-base hover:bg-atlas-600 transition-all shadow-xl shadow-atlas-500/25 flex items-center gap-2">
+            <Link href="/map" className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-atlas-400 to-atlas-500 text-white font-display font-bold text-base hover:from-atlas-500 hover:to-atlas-600 transition-all shadow-xl shadow-atlas-500/25 flex items-center gap-2">
               <MapPin className="w-5 h-5" /> Explore the Map <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/intelligence" className="px-8 py-3.5 rounded-2xl bg-white/70 backdrop-blur-sm border border-white/80 text-slate-700 font-display font-semibold text-base hover:bg-white/90 transition-all shadow-lg shadow-blue-900/5 flex items-center gap-2">
@@ -180,7 +184,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ Map Preview — white section ═══ */}
+      {/* map preview */}
       <section className="relative py-16 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="relative rounded-3xl bg-white/70 backdrop-blur-sm border border-white/60 p-2 shadow-2xl shadow-blue-900/10 overflow-hidden">
@@ -213,7 +217,7 @@ export default function LandingPage() {
               <div className="absolute top-[25%] left-[45%] w-48 h-48 bg-atlas-500/10 rounded-full blur-[60px]" />
               <div className="absolute top-[55%] left-[20%] w-32 h-32 bg-indigo-500/8 rounded-full blur-[40px]" />
 
-              {/* Floating preview card */}
+              {/* floating preview card */}
               <div className="absolute top-[30%] right-8 w-56 p-3 rounded-xl bg-white border border-slate-200 shadow-2xl shadow-slate-900/10" style={{ animation: 'float 4s ease-in-out infinite' }}>
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-8 h-8 rounded-lg bg-atlas-500/15 flex items-center justify-center text-xs font-bold text-atlas-500">MT</div>
@@ -236,7 +240,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ Features Grid — tinted section ═══ */}
+      {/* features grid */}
       <section id="features" className="relative py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -255,7 +259,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ Intelligence Showcase — white section ═══ */}
+      {/* intelligence showcase */}
       <section id="intelligence" className="relative py-24 px-6">
         <div className="relative max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -307,7 +311,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ CTA — gradient section ═══ */}
+      {/* cta section */}
       <section className="relative py-24 px-6">
         <div className="relative max-w-3xl mx-auto text-center">
           <h2 className="font-display font-bold text-3xl md:text-4xl text-slate-900 mb-4">Ready to map your opportunity?</h2>
@@ -315,7 +319,7 @@ export default function LandingPage() {
             Join the coaches, academies, and operators already using Gaya to find, fill, and expand training across the GTA.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/onboard" className="px-8 py-3.5 rounded-2xl bg-atlas-500 text-white font-display font-bold hover:bg-atlas-600 transition-all shadow-xl shadow-atlas-500/25 flex items-center gap-2">
+            <Link href="/onboard" className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-atlas-400 to-atlas-500 text-white font-display font-bold hover:from-atlas-500 hover:to-atlas-600 transition-all shadow-xl shadow-atlas-500/25 flex items-center gap-2">
               Get Started Free <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/map" className="px-8 py-3.5 rounded-2xl bg-white/70 backdrop-blur-sm border border-white/80 text-slate-700 font-display font-semibold hover:bg-white/90 transition-all shadow-lg shadow-blue-900/5 flex items-center gap-2">
@@ -325,11 +329,11 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ Footer ═══ */}
+      {/* footer */}
       <footer className="py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-display font-bold text-slate-900 tracking-tight">Gaya</span>
+            <Image src="/logo.png" alt="Gaya" width={160} height={50} className="h-12 w-auto" />
           </div>
           <div className="flex items-center gap-6 text-xs text-slate-500">
             <span className="hover:text-slate-700 cursor-pointer">Privacy</span>

@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════
-   Gaya — Athlete Discovery Feed
-   Swipeable card-based training discovery experience.
-   Think: Tinder meets ClassPass for youth sports training.
-   Gesture-based card interactions + smart recommendations.
-   ═══════════════════════════════════════════════════════════════ */
+// athlete discovery feed - swipeable card-based training discovery
 
 'use client';
 
@@ -18,8 +13,6 @@ import {
 import { cn, formatPrice } from '@/lib/utils';
 import { Card, Badge, Button } from '@/components/ui';
 import type { EventType } from '@/types';
-
-// ─── Mock Data ──────────────────────────────────────────────
 
 interface DiscoverCard {
   id: string;
@@ -109,8 +102,7 @@ const typeConfig: Record<EventType, { color: string; label: string }> = {
   private: { color: 'bg-purple-500/15 text-purple-400 border-purple-500/20', label: '👤 Private' },
 };
 
-// ─── Swipeable Card Component ───────────────────────────────
-
+// swipeable card component
 function SwipeCard({
   card,
   isTop,
@@ -177,11 +169,11 @@ function SwipeCard({
       onPointerUp={handlePointerUp}
     >
       <div className="h-full rounded-3xl bg-white border border-slate-200 overflow-hidden shadow-xl shadow-black/8 flex flex-col">
-        {/* Card Header with Gradient */}
+        {/* card header with gradient */}
         <div className={cn('relative h-44 flex items-end p-5', `bg-gradient-to-br ${card.gradient}`)}>
           <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-transparent" />
 
-          {/* Swipe Indicators */}
+          {/* swipe indicators */}
           {isTop && dragState.dragging && (
             <>
               <div className={cn(
@@ -201,7 +193,7 @@ function SwipeCard({
             </>
           )}
 
-          {/* Type Badge */}
+          {/* type badge */}
           <div className="relative z-10 flex items-center gap-2">
             <span className={cn('text-xs font-semibold px-3 py-1.5 rounded-full border backdrop-blur-sm', typeConfig[card.event_type].color)}>
               {typeConfig[card.event_type].label}
@@ -218,16 +210,16 @@ function SwipeCard({
             )}
           </div>
 
-          {/* Emoji decorator */}
+          {/* emoji decorator */}
           <span className="absolute top-4 right-5 text-5xl opacity-20">{card.emoji}</span>
         </div>
 
-        {/* Card Body */}
+        {/* card body */}
         <div className="flex-1 p-5 flex flex-col">
           <h2 className="font-display font-bold text-xl text-text-primary mb-1">{card.title}</h2>
           <p className="text-xs text-text-muted mb-4">{card.sport} · {card.skill_levels.join(', ')} · Ages {card.age_min}–{card.age_max}</p>
 
-          {/* Coach Row */}
+          {/* coach row */}
           <div className="flex items-center gap-2.5 mb-4 p-2.5 rounded-xl bg-slate-50 border border-slate-200">
             <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-atlas-500/20 to-blue-500/20 flex items-center justify-center text-sm font-bold text-atlas-400">
               {card.coach_name.split(' ').map(n => n[0]).join('')}
@@ -244,7 +236,7 @@ function SwipeCard({
             </div>
           </div>
 
-          {/* Info Grid */}
+          {/* info grid */}
           <div className="grid grid-cols-2 gap-2.5 mb-4">
             <div className="flex items-center gap-2 text-sm text-text-secondary">
               <Calendar className="w-3.5 h-3.5 text-text-muted shrink-0" />
@@ -264,7 +256,7 @@ function SwipeCard({
             </div>
           </div>
 
-          {/* Tags */}
+          {/* tags */}
           <div className="flex flex-wrap gap-1.5 mb-4">
             {card.tags.map(tag => (
               <span key={tag} className="text-[11px] px-2.5 py-1 rounded-full bg-white border border-slate-200/60 shadow-sm text-text-muted">
@@ -273,10 +265,10 @@ function SwipeCard({
             ))}
           </div>
 
-          {/* Spacer */}
+          {/* spacer */}
           <div className="flex-1" />
 
-          {/* Price + Distance */}
+          {/* price + distance */}
           <div className="flex items-center justify-between pt-3 border-t border-slate-200">
             <div>
               <span className="text-2xl font-display font-bold text-atlas-400">{formatPrice(card.price_cents)}</span>
@@ -295,8 +287,6 @@ function SwipeCard({
   );
 }
 
-// ─── Main Page ──────────────────────────────────────────────
-
 export default function DiscoverPage() {
   const [stack, setStack] = useState(CARDS);
   const [saved, setSaved] = useState<DiscoverCard[]>([]);
@@ -312,7 +302,7 @@ export default function DiscoverPage() {
       } else {
         setSkipped(s => s + 1);
       }
-      // If stack runs out, refill with shuffled cards
+      // if stack runs out, refill with shuffled cards
       if (rest.length === 0) {
         return [...CARDS].sort(() => Math.random() - 0.5);
       }
@@ -326,7 +316,7 @@ export default function DiscoverPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+      {/* header */}
       <div className="border-b border-slate-200">
         <div className="max-w-lg mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
@@ -356,7 +346,7 @@ export default function DiscoverPage() {
             </div>
           </div>
 
-          {/* Filter Pills */}
+          {/* filter pills */}
           <div className="flex items-center gap-2 mt-3">
             {(['all', 'camp', 'clinic', 'private'] as const).map(f => (
               <button
@@ -376,10 +366,10 @@ export default function DiscoverPage() {
         </div>
       </div>
 
-      {/* Content */}
+      {/* content */}
       <div className="max-w-lg mx-auto px-6 py-6">
         {showSaved ? (
-          /* ── Saved List ── */
+          /* saved list */
           <div className="space-y-3 animate-fade-in">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-display font-semibold text-text-primary">Saved ({saved.length})</h2>
@@ -415,7 +405,7 @@ export default function DiscoverPage() {
             )}
           </div>
         ) : (
-          /* ── Card Stack ── */
+          /* card stack */
           <>
             <div className="relative h-[520px] mb-6">
               {filteredStack.slice(0, 3).reverse().map((card, i, arr) => (
@@ -428,7 +418,7 @@ export default function DiscoverPage() {
               ))}
             </div>
 
-            {/* Action Buttons */}
+            {/* action buttons */}
             <div className="flex items-center justify-center gap-6">
               <button
                 onClick={() => handleSwipe('left')}
@@ -438,8 +428,7 @@ export default function DiscoverPage() {
               </button>
               <button
                 onClick={() => { /* request info */ }}
-                className="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 hover:bg-blue-500/20 transition-all active:scale-90"
-              >
+                className="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 hover:bg-blue-500/20 transition-all active:scale-90">
                 <Send className="w-4 h-4" />
               </button>
               <button
@@ -450,7 +439,7 @@ export default function DiscoverPage() {
               </button>
             </div>
 
-            {/* Stats */}
+            {/* stats */}
             <div className="flex items-center justify-center gap-6 mt-4 text-xs text-text-muted">
               <span>{saved.length} saved</span>
               <span>·</span>

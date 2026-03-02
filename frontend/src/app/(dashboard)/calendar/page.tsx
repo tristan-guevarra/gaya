@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════
-   Gaya — Smart Calendar
-   AI-powered scheduling with weekly grid view, drag-to-create,
-   conflict detection, availability gaps, and intelligent
-   scheduling suggestions based on zone demand patterns.
-   ═══════════════════════════════════════════════════════════════════ */
+// smart calendar - ai-powered scheduling with weekly grid, conflict detection, and demand-based suggestions
 
 'use client';
 
@@ -16,7 +11,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────
 
 interface CalEvent {
   id: string;
@@ -45,7 +39,6 @@ interface AISuggestion {
   reason: string;
 }
 
-// ─── Mock Data ──────────────────────────────────────────────────
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const HOURS = Array.from({ length: 16 }, (_, i) => i + 6); // 6AM - 9PM
@@ -61,7 +54,7 @@ const EVENTS: CalEvent[] = [
   { id: 'e8', title: 'Private Session', coach: 'Aisha O.', coachInitials: 'AO', zone: 'Mississauga', day: 3, startHour: 10, duration: 1, type: 'private', filled: 1, capacity: 1, color: 'bg-purple-500/30 border-purple-500/40 text-purple-300' },
   { id: 'e9', title: 'Weekend Intensive', coach: 'Marcus T.', coachInitials: 'MT', zone: 'Scarborough', day: 5, startHour: 8, duration: 5, type: 'camp', filled: 38, capacity: 40, color: 'bg-atlas-500/30 border-atlas-500/40 text-atlas-300' },
   { id: 'e10', title: 'Youth Clinic', coach: 'Sarah C.', coachInitials: 'SC', zone: 'Brampton', day: 5, startHour: 14, duration: 2, type: 'clinic', filled: 19, capacity: 20, color: 'bg-blue-500/30 border-blue-500/40 text-blue-300' },
-  // Conflict example
+  // conflict example
   { id: 'e11', title: 'Private (CONFLICT)', coach: 'Marcus T.', coachInitials: 'MT', zone: 'Ajax', day: 5, startHour: 10, duration: 1, type: 'private', filled: 1, capacity: 1, color: 'bg-red-500/30 border-red-500/40 text-red-300', conflict: true },
 ];
 
@@ -83,7 +76,6 @@ const DEMAND_OVERLAY = [
   { day: 6, hour: 9, intensity: 0.7 }, { day: 6, hour: 10, intensity: 0.65 },
 ];
 
-// ─── Helpers ────────────────────────────────────────────────────
 
 function formatHour(h: number): string {
   if (h === 0 || h === 12) return h === 0 ? '12 AM' : '12 PM';
@@ -97,7 +89,6 @@ function getTimeOfDay(h: number): { icon: React.ElementType; label: string } {
   return { icon: Moon, label: 'Evening' };
 }
 
-// ─── Page Component ─────────────────────────────────────────────
 
 export default function SmartCalendarPage() {
   const [showDemand, setShowDemand] = useState(true);
@@ -123,7 +114,7 @@ export default function SmartCalendarPage() {
     return match?.intensity || 0;
   };
 
-  // Week dates
+  // week dates
   const baseDate = new Date(2026, 2, 2); // Mon Mar 2, 2026
   baseDate.setDate(baseDate.getDate() + weekOffset * 7);
   const weekDates = DAYS.map((_, i) => {
@@ -134,7 +125,7 @@ export default function SmartCalendarPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-[1400px] mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
@@ -145,12 +136,12 @@ export default function SmartCalendarPage() {
               <p className="text-xs text-text-muted mt-0.5">AI-powered scheduling with demand intelligence</p>
             </div>
             <div className="flex items-center gap-2">
-              {/* Coach Filter */}
+              {/* coach filter */}
               <select value={filterCoach} onChange={e => setFilterCoach(e.target.value)}
                 className="px-3 py-1.5 rounded-lg text-xs bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5/60 shadow-sm text-text-secondary">
                 {coaches.map(c => <option key={c} value={c}>{c === 'all' ? 'All Coaches' : c}</option>)}
               </select>
-              {/* Toggles */}
+              {/* toggles */}
               <button onClick={() => setShowDemand(!showDemand)}
                 className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-all',
                   showDemand ? 'bg-atlas-500/10 border-atlas-500/20 text-atlas-400' : 'bg-slate-100/50 border-slate-200 text-text-muted')}>
@@ -167,7 +158,7 @@ export default function SmartCalendarPage() {
             </div>
           </div>
 
-          {/* Week Nav */}
+          {/* week nav */}
           <div className="flex items-center gap-4 mt-4">
             <button onClick={() => setWeekOffset(w => w - 1)} className="p-1 rounded-lg hover:bg-slate-100/50 text-text-muted">
               <ChevronLeft className="w-4 h-4" />
@@ -192,10 +183,10 @@ export default function SmartCalendarPage() {
       </div>
 
       <div className="max-w-[1400px] mx-auto px-6 py-4 flex gap-4">
-        {/* ═══ Calendar Grid ═══ */}
+        {/* calendar grid */}
         <div className="flex-1 overflow-auto">
           <div className="grid grid-cols-[60px_repeat(7,1fr)] min-w-[900px]">
-            {/* Header Row */}
+            {/* header row */}
             <div className="sticky top-0 z-20 bg-white" />
             {DAYS.map((day, di) => {
               const date = weekDates[di];
@@ -209,14 +200,14 @@ export default function SmartCalendarPage() {
               );
             })}
 
-            {/* Time Rows */}
+            {/* time rows */}
             {HOURS.map(hour => (
               <>
-                {/* Time label */}
+                {/* time label */}
                 <div key={`label-${hour}`} className="text-right pr-2 pt-0.5 h-14">
                   <span className="text-[9px] text-text-muted/60">{formatHour(hour)}</span>
                 </div>
-                {/* Day cells */}
+                {/* day cells */}
                 {DAYS.map((_, di) => {
                   const demandIntensity = showDemand ? getDemandIntensity(di, hour) : 0;
                   const cellEvents = filteredEvents.filter(e => e.day === di && hour >= e.startHour && hour < e.startHour + e.duration);
@@ -228,12 +219,12 @@ export default function SmartCalendarPage() {
                         demandIntensity > 0 && `bg-atlas-500/${Math.round(demandIntensity * 8)}`,
                         di === 4 && 'bg-atlas-500/[0.02]'
                       )}>
-                      {/* Demand dot */}
+                      {/* demand dot */}
                       {showDemand && demandIntensity > 0.7 && !isStart && cellEvents.length === 0 && (
                         <div className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-atlas-500/50" />
                       )}
 
-                      {/* Event Block */}
+                      {/* event block */}
                       {isStart && (
                         <button onClick={() => setSelectedEvent(isStart)}
                           className={cn('absolute inset-x-0.5 rounded-lg border px-1.5 py-1 z-10 text-left hover:brightness-125 transition-all overflow-hidden cursor-pointer',
@@ -265,10 +256,10 @@ export default function SmartCalendarPage() {
           </div>
         </div>
 
-        {/* ═══ AI Sidebar ═══ */}
+        {/* ai sidebar */}
         {showAI && (
           <div className="w-80 shrink-0 space-y-4 animate-fade-in">
-            {/* Suggestions */}
+            {/* suggestions */}
             <div className="rounded-2xl bg-white backdrop-blur-xl border border-purple-500/10 overflow-hidden">
               <div className="px-4 py-3 border-b border-slate-200 flex items-center gap-2">
                 <Brain className="w-4 h-4 text-purple-400" />
@@ -304,7 +295,7 @@ export default function SmartCalendarPage() {
               </div>
             </div>
 
-            {/* Demand Heatmap Legend */}
+            {/* demand heatmap legend */}
             {showDemand && (
               <div className="p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
                 <p className="text-xs font-semibold text-text-primary mb-2 flex items-center gap-1.5">
@@ -321,7 +312,7 @@ export default function SmartCalendarPage() {
               </div>
             )}
 
-            {/* Quick Stats */}
+            {/* quick stats */}
             <div className="p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <p className="text-xs font-semibold text-text-primary mb-3">This Week</p>
               <div className="space-y-2">
@@ -343,7 +334,7 @@ export default function SmartCalendarPage() {
         )}
       </div>
 
-      {/* ═══ Event Detail Modal ═══ */}
+      {/* event detail modal */}
       {selectedEvent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={() => setSelectedEvent(null)}>
           <div className="w-96 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 shadow-2xl shadow-black/10 overflow-hidden animate-fade-in" onClick={e => e.stopPropagation()}>

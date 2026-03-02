@@ -1,7 +1,4 @@
-/* ═══════════════════════════════════════════════════════════
-   Gaya — Map Listing Sidebar
-   Scrollable list of results that sync with map markers
-   ═══════════════════════════════════════════════════════════ */
+// map listing sidebar - scrollable list of results synced with map markers
 
 'use client';
 
@@ -31,7 +28,7 @@ export function MapListingSidebar({
 }: MapListingSidebarProps) {
   return (
     <>
-      {/* Toggle button when hidden */}
+      {/* toggle button when hidden */}
       {!visible && (
         <button
           onClick={onToggle}
@@ -43,14 +40,14 @@ export function MapListingSidebar({
         </button>
       )}
 
-      {/* Sidebar */}
+      {/* sidebar */}
       <div
         className={cn(
           'absolute top-4 right-4 z-[500] w-[360px] max-h-[calc(100vh-120px)] flex flex-col transition-all duration-300',
           visible ? 'translate-x-0 opacity-100' : 'translate-x-[120%] opacity-0 pointer-events-none'
         )}
       >
-        {/* Header */}
+        {/* header */}
         <div className="glass-card p-3 mb-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="pulse-dot" />
@@ -66,7 +63,7 @@ export function MapListingSidebar({
           </button>
         </div>
 
-        {/* Listing cards */}
+        {/* listing cards */}
         <div className="flex-1 overflow-y-auto space-y-2 pr-1">
           {isLoading ? (
             Array.from({ length: 5 }).map((_, i) => (

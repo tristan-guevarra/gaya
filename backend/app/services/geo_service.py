@@ -63,7 +63,7 @@ async def get_active_h3_cells(db: AsyncSession, resolution: int = 8) -> List[str
     for result in [coach_cells, event_cells, lead_cells, search_cells]:
         for row in result.scalars().all():
             all_cells.add(row)
-            # Also add neighboring cells for smoother heatmaps
+            # also add neighboring cells for smoother heatmaps
             for neighbor in h3.k_ring(row, 1):
                 all_cells.add(neighbor)
 
@@ -75,11 +75,11 @@ def compute_cell_metrics_sync(db: Session, h3_index: str, metric_date: date) -> 
     Compute supply/demand/hotspot metrics for a single H3 cell on a given date.
     Uses sync session (called from Celery worker).
     """
-    # Include neighboring cells for "fuzzy" supply counting
+    # include neighboring cells for "fuzzy" supply counting
     nearby_cells = list(h3.k_ring(h3_index, 1))
     center_lat, center_lng = h3_to_center(h3_index)
 
-    # ─── Supply ───────────────────────────────────────────
+    # supply
     coach_count = db.query(func.count(CoachLocation.id)).filter(
         CoachLocation.h3_index_r8.in_(nearby_cells)
     ).scalar() or 0
@@ -97,10 +97,10 @@ def compute_cell_metrics_sync(db: Session, h3_index: str, metric_date: date) -> 
     event_count = event_result[0] or 0
     total_capacity = int(event_result[1] or 0)
 
-    # Normalize supply: weighted sum
+    # normalize supply: weighted sum
     supply_score = (coach_count * 2.0) + (event_count * 3.0) + (total_capacity * 0.1)
 
-    # ─── Demand (last 30 days) ────────────────────────────
+    # demand (last 30 days)
     lookback = metric_date - timedelta(days=30)
 
     search_count = db.query(func.count(SearchLog.id)).filter(
@@ -121,7 +121,7 @@ def compute_cell_metrics_sync(db: Session, h3_index: str, metric_date: date) -> 
 
     demand_score = (search_count * 1.0) + (lead_count * 3.0) + (waitlist_count * 5.0)
 
-    # ─── Conversions ──────────────────────────────────────
+    # conversions
     booking_count = db.query(func.count(Booking.id)).join(Event).filter(
         Event.h3_index_r8.in_(nearby_cells),
         Booking.booked_at >= lookback,
@@ -130,8 +130,8 @@ def compute_cell_metrics_sync(db: Session, h3_index: str, metric_date: date) -> 
     conversion_rate = (booking_count / lead_count) if lead_count > 0 else 0.0
     fill_rate = (booking_count / total_capacity) if total_capacity > 0 else 0.0
 
-    # ─── Derived ──────────────────────────────────────────
-    # Normalize scores to 0–100 range (approx)
+    # derived scores
+    # normalize scores to 0-100 range (approx)
     max_score = max(supply_score, demand_score, 1.0)
     norm_supply = (supply_score / max_score) * 100
     norm_demand = (demand_score / max_score) * 100
@@ -181,7 +181,7 @@ async def get_hex_metrics_geojson(
     result = await db.execute(query)
     metrics = result.scalars().all()
 
-    # Map layer name to score field
+    # map layer name to score field
     score_field_map = {
         "supply": "supply_score",
         "demand": "demand_score",

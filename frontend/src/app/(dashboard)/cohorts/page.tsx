@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════
-   Gaya — Cohort Analysis
-   Deep retention cohorts with survival curves, engagement funnels,
-   LTV analysis by acquisition channel, behavioral segmentation,
-   and predictive lifetime value modeling.
-   ═══════════════════════════════════════════════════════════════════════ */
+// cohort analysis - retention cohorts, survival curves, engagement funnels, ltv analysis, and behavioral segmentation
 
 'use client';
 
@@ -16,11 +11,9 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────────
 
 type Tab = 'retention' | 'ltv' | 'funnel' | 'segments';
 
-// ─── Mock Data ──────────────────────────────────────────────────────
 
 const retentionCohorts = [
   { month: 'Oct 2024', users: 142, weeks: [100, 72, 58, 49, 44, 41, 38, 36, 34, 32, 31, 30] },
@@ -57,7 +50,6 @@ const segments = [
   { name: 'Churned', description: 'Previously active, no activity 60+ days', users: 98, pct: 8.0, avgLtv: 310, avgSessions: 0, color: 'from-red-500 to-orange-500' },
 ];
 
-// ─── Helpers ────────────────────────────────────────────────────────
 
 function getCellColor(value: number): string {
   if (value >= 70) return 'bg-green-500/40 text-green-200';
@@ -68,7 +60,6 @@ function getCellColor(value: number): string {
   return 'bg-red-500/10 text-red-300';
 }
 
-// ─── Page ───────────────────────────────────────────────────────────
 
 export default function CohortAnalysisPage() {
   const [tab, setTab] = useState<Tab>('retention');
@@ -82,7 +73,7 @@ export default function CohortAnalysisPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
@@ -115,10 +106,10 @@ export default function CohortAnalysisPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-6">
-        {/* ═══ Retention Tab ═══ */}
+        {/* retention tab */}
         {tab === 'retention' && (
           <div className="space-y-6 animate-fade-in">
-            {/* Summary */}
+            {/* summary */}
             <div className="grid grid-cols-4 gap-4">
               {[
                 { label: 'Week 1 Retention', value: '78%', change: '+4%', icon: Activity, color: 'text-green-400' },
@@ -137,7 +128,7 @@ export default function CohortAnalysisPage() {
               ))}
             </div>
 
-            {/* Retention Heatmap Table */}
+            {/* retention heatmap table */}
             <div className="rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 overflow-hidden">
               <div className="p-4 border-b border-slate-200">
                 <h3 className="text-sm font-semibold text-text-primary">Retention Cohort Heatmap</h3>
@@ -177,7 +168,7 @@ export default function CohortAnalysisPage() {
               </div>
             </div>
 
-            {/* Survival Curve (text/visual representation) */}
+            {/* survival curve */}
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-3">Survival Curve — Latest Cohort (Mar 2025)</h3>
               <div className="h-40 flex items-end gap-1">
@@ -188,7 +179,7 @@ export default function CohortAnalysisPage() {
                     <span className="text-[8px] text-text-muted/50">W{i}</span>
                   </div>
                 ))}
-                {/* Projected weeks */}
+                {/* projected weeks */}
                 {[64, 56].map((val, i) => (
                   <div key={`proj-${i}`} className="flex-1 flex flex-col items-center gap-1">
                     <span className="text-[9px] text-text-muted/40">{val}%</span>
@@ -202,7 +193,7 @@ export default function CohortAnalysisPage() {
           </div>
         )}
 
-        {/* ═══ LTV Tab ═══ */}
+        {/* ltv tab */}
         {tab === 'ltv' && (
           <div className="space-y-6 animate-fade-in">
             <div className="grid grid-cols-3 gap-4">
@@ -257,7 +248,7 @@ export default function CohortAnalysisPage() {
               </table>
             </div>
 
-            {/* LTV Insight */}
+            {/* ltv insight */}
             <div className="p-4 rounded-xl bg-purple-500/5 border border-purple-500/15">
               <div className="flex items-center gap-2 mb-2">
                 <Sparkles className="w-4 h-4 text-purple-400" />
@@ -272,7 +263,7 @@ export default function CohortAnalysisPage() {
           </div>
         )}
 
-        {/* ═══ Funnel Tab ═══ */}
+        {/* funnel tab */}
         {tab === 'funnel' && (
           <div className="space-y-6 animate-fade-in">
             <div className="rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 p-6">
@@ -302,7 +293,7 @@ export default function CohortAnalysisPage() {
               </div>
             </div>
 
-            {/* Drop-off Analysis */}
+            {/* drop-off analysis */}
             <div className="grid grid-cols-2 gap-4">
               <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
                 <h3 className="text-sm font-semibold text-text-primary mb-3">Biggest Drop-offs</h3>
@@ -351,7 +342,7 @@ export default function CohortAnalysisPage() {
           </div>
         )}
 
-        {/* ═══ Segments Tab ═══ */}
+        {/* segments tab */}
         {tab === 'segments' && (
           <div className="space-y-4 animate-fade-in">
             <div className="flex items-center justify-between mb-2">
@@ -359,7 +350,7 @@ export default function CohortAnalysisPage() {
               <span className="text-[10px] text-text-muted">1,228 total users analyzed</span>
             </div>
 
-            {/* Segment Distribution Bar */}
+            {/* segment distribution bar */}
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <p className="text-xs text-text-muted mb-3">Distribution</p>
               <div className="flex h-6 rounded-full overflow-hidden gap-0.5">
@@ -378,7 +369,7 @@ export default function CohortAnalysisPage() {
               </div>
             </div>
 
-            {/* Segment Cards */}
+            {/* segment cards */}
             {segments.map(seg => (
               <div key={seg.name} className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
                 <div className="flex items-start justify-between">
@@ -407,7 +398,7 @@ export default function CohortAnalysisPage() {
               </div>
             ))}
 
-            {/* Segment Insight */}
+            {/* segment insight */}
             <div className="p-4 rounded-xl bg-purple-500/5 border border-purple-500/15">
               <div className="flex items-center gap-2 mb-2">
                 <Sparkles className="w-4 h-4 text-purple-400" />

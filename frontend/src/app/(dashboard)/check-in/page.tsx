@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════
-   Gaya — QR Check-In
-   Digital attendance system with QR code generation, live
-   check-in tracking, session attendance analytics, late
-   arrival tracking, and attendance history.
-   ═══════════════════════════════════════════════════════════════════════ */
+// qr check-in - digital attendance with qr codes, live tracking, session analytics, and attendance history
 
 'use client';
 
@@ -16,7 +11,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────────
 
 type Tab = 'live' | 'history' | 'analytics';
 
@@ -46,7 +40,6 @@ interface Session {
   attendees: Attendee[];
 }
 
-// ─── Mock Data ──────────────────────────────────────────────────────
 
 const sessions: Session[] = [
   {
@@ -87,7 +80,6 @@ const weeklyStats = [
   { day: 'Sun', attendance: 92, sessions: 3 },
 ];
 
-// ─── Page ───────────────────────────────────────────────────────────
 
 export default function CheckInPage() {
   const [tab, setTab] = useState<Tab>('live');
@@ -109,7 +101,7 @@ export default function CheckInPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
@@ -144,9 +136,9 @@ export default function CheckInPage() {
       <div className="max-w-7xl mx-auto px-6 py-6">
         {tab === 'live' && (
           <div className="grid grid-cols-12 gap-6 animate-fade-in">
-            {/* Left: QR + Session Info */}
+            {/* left: qr + session info */}
             <div className="col-span-4 space-y-4">
-              {/* QR Code */}
+              {/* qr code */}
               <div className="p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5 text-center">
                 <div className="w-48 h-48 mx-auto rounded-2xl bg-white p-4 mb-4">
                   <div className="w-full h-full rounded-lg bg-[repeating-conic-gradient(#1a1a2e_0%_25%,#fff_0%_50%)] bg-[length:12px_12px] opacity-80" />
@@ -163,7 +155,7 @@ export default function CheckInPage() {
                 </div>
               </div>
 
-              {/* Active Session */}
+              {/* active session */}
               <div className="p-5 rounded-xl bg-blue-500/5 border border-blue-500/15">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
@@ -188,7 +180,7 @@ export default function CheckInPage() {
                   </div>
                 </div>
 
-                {/* Progress */}
+                {/* progress */}
                 <div className="mt-3">
                   <div className="flex items-center justify-between text-[10px] mb-1">
                     <span className="text-text-muted">Attendance</span>
@@ -201,7 +193,7 @@ export default function CheckInPage() {
                 </div>
               </div>
 
-              {/* Upcoming */}
+              {/* upcoming */}
               {sessions.filter(s => s.status === 'upcoming').map(s => (
                 <div key={s.id} className="p-4 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
                   <div className="flex items-center gap-2 mb-1">
@@ -214,10 +206,10 @@ export default function CheckInPage() {
               ))}
             </div>
 
-            {/* Right: Attendee List */}
+            {/* right: attendee list */}
             <div className="col-span-8">
               <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
-                {/* Search */}
+                {/* search */}
                 <div className="flex items-center gap-2 mb-4">
                   <div className="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg bg-white/40 border border-white/60">
                     <Search className="w-3.5 h-3.5 text-text-muted" />
@@ -229,9 +221,9 @@ export default function CheckInPage() {
                   </button>
                 </div>
 
-                {/* Attendee Table */}
+                {/* attendee table */}
                 <div className="space-y-1">
-                  {/* Header */}
+                  {/* header */}
                   <div className="grid grid-cols-12 gap-2 px-3 py-2 text-[10px] text-text-muted/60 uppercase tracking-wider">
                     <div className="col-span-3">Athlete</div>
                     <div className="col-span-2">Parent</div>
@@ -290,7 +282,7 @@ export default function CheckInPage() {
 
         {tab === 'analytics' && (
           <div className="space-y-6 animate-fade-in">
-            {/* Summary */}
+            {/* summary */}
             <div className="grid grid-cols-4 gap-4">
               {[
                 { label: 'Avg Attendance Rate', value: '92.3%', change: '+2.1%', icon: UserCheck, color: 'text-green-400' },
@@ -308,7 +300,7 @@ export default function CheckInPage() {
               ))}
             </div>
 
-            {/* Weekly Chart */}
+            {/* weekly chart */}
             <div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-4">Weekly Attendance Rate</h3>
               <div className="flex items-end gap-3 h-40">

@@ -1,8 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════
-   Gaya — Notification Center
-   Real-time notification dropdown with categories,
-   mark-as-read, action buttons, and notification preferences.
-   ═══════════════════════════════════════════════════════════════ */
+// notification center - dropdown with categories, mark-as-read, and action buttons
 
 'use client';
 
@@ -15,7 +11,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────
+// types
 
 interface Notification {
   id: string;
@@ -29,7 +25,7 @@ interface Notification {
   avatar_initials?: string;
 }
 
-// ─── Mock Data ──────────────────────────────────────────────
+// mock data
 
 const NOTIFICATIONS: Notification[] = [
   { id: '1', type: 'booking', title: 'New Booking!', message: 'Sarah M. booked Spring Elite Camp (Apr 14-18)', time: '2 min ago', read: false, action_url: '/events/e1', action_label: 'View Booking', avatar_initials: 'SM' },
@@ -52,7 +48,7 @@ const typeConfig: Record<string, { icon: React.ElementType; color: string }> = {
   system: { icon: Shield, color: 'bg-slate-100 text-text-muted' },
 };
 
-// ─── Component ──────────────────────────────────────────────
+// component
 
 export function NotificationCenter() {
   const [open, setOpen] = useState(false);
@@ -63,7 +59,7 @@ export function NotificationCenter() {
   const unreadCount = notifications.filter(n => !n.read).length;
   const filtered = filter === 'unread' ? notifications.filter(n => !n.read) : notifications;
 
-  // Close on outside click
+  // close on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
@@ -82,7 +78,7 @@ export function NotificationCenter() {
 
   return (
     <div ref={ref} className="relative">
-      {/* Bell Button */}
+      {/* bell button */}
       <button
         onClick={() => setOpen(!open)}
         className={cn(
@@ -100,10 +96,10 @@ export function NotificationCenter() {
         )}
       </button>
 
-      {/* Dropdown */}
+      {/* dropdown */}
       {open && (
         <div className="absolute right-0 top-12 w-[380px] max-h-[520px] bg-white border border-slate-200 rounded-2xl shadow-2xl shadow-black/8 overflow-hidden animate-slide-up z-50">
-          {/* Header */}
+          {/* header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200">
             <h3 className="font-display font-semibold text-sm text-text-primary">Notifications</h3>
             <div className="flex items-center gap-2">
@@ -119,7 +115,7 @@ export function NotificationCenter() {
             </div>
           </div>
 
-          {/* Filter Tabs */}
+          {/* filter tabs */}
           <div className="flex gap-1 px-4 py-2 border-b border-slate-200">
             {(['all', 'unread'] as const).map(f => (
               <button key={f} onClick={() => setFilter(f)}
@@ -130,7 +126,7 @@ export function NotificationCenter() {
             ))}
           </div>
 
-          {/* List */}
+          {/* list */}
           <div className="overflow-y-auto max-h-[380px] scrollbar-thin">
             {filtered.length === 0 ? (
               <div className="py-12 text-center">
@@ -149,7 +145,7 @@ export function NotificationCenter() {
                       !n.read ? 'bg-atlas-500/[0.03] hover:bg-atlas-500/[0.06]' : 'hover:bg-slate-50'
                     )}
                   >
-                    {/* Icon or Avatar */}
+                    {/* icon or avatar */}
                     {n.avatar_initials ? (
                       <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-atlas-500/20 to-blue-500/20 flex items-center justify-center text-xs font-bold text-atlas-400 shrink-0">
                         {n.avatar_initials}
@@ -176,7 +172,7 @@ export function NotificationCenter() {
                       )}
                     </div>
 
-                    {/* Unread dot */}
+                    {/* unread dot */}
                     {!n.read && (
                       <div className="w-2 h-2 rounded-full bg-atlas-500 mt-2 shrink-0" />
                     )}
@@ -186,7 +182,7 @@ export function NotificationCenter() {
             )}
           </div>
 
-          {/* Footer */}
+          {/* footer */}
           <div className="px-4 py-2.5 border-t border-slate-200 bg-slate-50">
             <Link href="/settings" onClick={() => setOpen(false)}
               className="text-xs text-text-muted hover:text-atlas-400 transition-colors text-center block">

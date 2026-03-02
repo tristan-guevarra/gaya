@@ -1,8 +1,4 @@
-/* ═══════════════════════════════════════════════════════════
-   Gaya — Event Detail Page
-   Full event detail with capacity ring, booking flow,
-   coach sidebar, schedule, and related events
-   ═══════════════════════════════════════════════════════════ */
+// event detail page
 
 'use client';
 
@@ -18,8 +14,6 @@ import {
   ArrowUpRight, BadgeCheck
 } from 'lucide-react';
 import type { TrainingEvent, Coach, EventType } from '@/types';
-
-// ─── Mock Event Data ──────────────────────────────────────
 
 const EVENT: TrainingEvent & {
   amenities: string[];
@@ -76,8 +70,7 @@ const RELATED = [
 
 const typeEmoji: Record<EventType, string> = { camp: '🏕️', clinic: '⚡', private: '👤' };
 
-// ─── Capacity Ring ────────────────────────────────────────
-
+// capacity ring component
 function CapacityRing({ enrolled, capacity }: { enrolled: number; capacity: number }) {
   const pct = enrolled / capacity;
   const spotsLeft = capacity - enrolled;
@@ -104,8 +97,6 @@ function CapacityRing({ enrolled, capacity }: { enrolled: number; capacity: numb
   );
 }
 
-// ─── Page Component ───────────────────────────────────────
-
 export default function EventDetailPage() {
   const [saved, setSaved] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
@@ -115,7 +106,7 @@ export default function EventDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* ─── Breadcrumb ─── */}
+      {/* breadcrumb */}
       <div className="border-b border-slate-200">
         <div className="max-w-[1100px] mx-auto px-6 py-3">
           <div className="flex items-center gap-2 text-xs text-text-muted">
@@ -130,7 +121,7 @@ export default function EventDetailPage() {
         </div>
       </div>
 
-      {/* ─── Hero ─── */}
+      {/* hero */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 via-transparent to-transparent" />
         <div className="absolute top-0 right-0 w-[600px] h-[300px] bg-blue-500/3 rounded-full blur-[100px]" />
@@ -169,18 +160,18 @@ export default function EventDetailPage() {
         </div>
       </div>
 
-      {/* ─── Content ─── */}
+      {/* content */}
       <div className="max-w-[1100px] mx-auto px-6 pb-16">
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main (2/3) */}
+          {/* main */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Description */}
+            {/* description */}
             <Card>
               <h2 className="font-display font-semibold text-lg text-text-primary mb-4">About This Event</h2>
               <div className="prose-sm text-text-secondary leading-relaxed whitespace-pre-line">{EVENT.description}</div>
             </Card>
 
-            {/* Schedule */}
+            {/* schedule */}
             <Card>
               <h2 className="font-display font-semibold text-lg text-text-primary mb-3">Schedule</h2>
               <div className="flex items-center gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200">
@@ -189,7 +180,7 @@ export default function EventDetailPage() {
               </div>
             </Card>
 
-            {/* Amenities & Requirements */}
+            {/* amenities & requirements */}
             <div className="grid md:grid-cols-2 gap-6">
               <Card>
                 <h2 className="font-display font-semibold text-text-primary mb-3">What&apos;s Included</h2>
@@ -213,7 +204,7 @@ export default function EventDetailPage() {
               </Card>
             </div>
 
-            {/* Location */}
+            {/* location */}
             <Card>
               <h2 className="font-display font-semibold text-lg text-text-primary mb-3">Location</h2>
               <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
@@ -230,7 +221,7 @@ export default function EventDetailPage() {
               </div>
             </Card>
 
-            {/* Related Events */}
+            {/* related events */}
             <div>
               <h2 className="font-display font-semibold text-lg text-text-primary mb-4">More from This Coach</h2>
               <div className="grid md:grid-cols-3 gap-4">
@@ -257,19 +248,19 @@ export default function EventDetailPage() {
             </div>
           </div>
 
-          {/* Sidebar (1/3) */}
+          {/* sidebar */}
           <div className="space-y-6">
-            {/* Booking Card */}
+            {/* booking card */}
             <Card className="!border-atlas-500/15 relative overflow-hidden sticky top-20">
               <div className="absolute top-0 right-0 w-32 h-32 bg-atlas-500/5 rounded-full blur-[40px]" />
               <div className="relative">
-                {/* Price */}
+                {/* price */}
                 <div className="text-center mb-4">
                   <p className="text-3xl font-display font-bold text-text-primary">{formatPrice(EVENT.price_cents)}</p>
                   <p className="text-xs text-text-muted">per athlete · 5 days</p>
                 </div>
 
-                {/* Capacity ring */}
+                {/* capacity ring */}
                 <CapacityRing enrolled={EVENT.enrolled} capacity={EVENT.capacity} />
 
                 <div className="text-center mt-2 mb-5">
@@ -282,7 +273,7 @@ export default function EventDetailPage() {
                   )}
                 </div>
 
-                {/* CTA */}
+                {/* cta */}
                 <Button size="lg" className="w-full mb-2" disabled={false}>
                   <Zap className="w-4 h-4" />
                   {isFull ? 'Join Waitlist' : 'Book Now'}
@@ -300,7 +291,7 @@ export default function EventDetailPage() {
               </div>
             </Card>
 
-            {/* Coach Card */}
+            {/* coach card */}
             <Card>
               <Link href={`/coaches/${COACH.id}`} className="group">
                 <div className="flex items-center gap-3 mb-3">
@@ -333,7 +324,7 @@ export default function EventDetailPage() {
               </div>
             </Card>
 
-            {/* Quick Info */}
+            {/* quick info */}
             <Card padding="sm">
               <div className="space-y-3">
                 {[

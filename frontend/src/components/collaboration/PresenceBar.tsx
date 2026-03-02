@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────
+// types
 
 interface PresenceUser {
   id: string;
@@ -33,7 +33,7 @@ interface LiveActivity {
   type: 'edit' | 'view' | 'create' | 'comment';
 }
 
-// ─── Mock Data ──────────────────────────────────────────────────
+// mock data
 
 export const PRESENCE_USERS: PresenceUser[] = [
   { id: 'u1', name: 'You', initials: 'YO', role: 'admin', color: 'bg-atlas-500', cursorColor: '#00d1b2', status: 'active', currentPage: 'Dashboard', lastSeen: 'Now' },
@@ -51,7 +51,7 @@ export const LIVE_ACTIVITIES: LiveActivity[] = [
   { id: 'a5', user: 'Sarah Chen', userColor: 'bg-blue-500', action: 'moved', target: 'Johnson lead to Qualified', timestamp: '5m ago', type: 'edit' },
 ];
 
-// ─── Presence Bar Component (Navbar Integration) ────────────────
+// presence bar component (navbar integration)
 
 export function PresenceBar() {
   const [showPanel, setShowPanel] = useState(false);
@@ -59,7 +59,7 @@ export function PresenceBar() {
 
   return (
     <div className="relative">
-      {/* Avatar Stack */}
+      {/* avatar stack */}
       <button onClick={() => setShowPanel(!showPanel)}
         className="flex items-center gap-1.5 px-2 py-1 rounded-lg hover:bg-slate-100/50 transition-all">
         <div className="flex -space-x-2">
@@ -84,7 +84,7 @@ export function PresenceBar() {
         </div>
       </button>
 
-      {/* Presence Panel */}
+      {/* presence panel */}
       {showPanel && (
         <div className="absolute right-0 top-full mt-2 w-72 rounded-2xl bg-white border border-slate-200 shadow-2xl shadow-black/10 overflow-hidden animate-fade-in z-50">
           <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
@@ -96,7 +96,7 @@ export function PresenceBar() {
             </button>
           </div>
 
-          {/* Users */}
+          {/* users */}
           <div className="p-2 max-h-60 overflow-y-auto">
             {PRESENCE_USERS.map(user => (
               <div key={user.id} className="flex items-center gap-2.5 px-2 py-2 rounded-lg hover:bg-slate-50 transition-colors">
@@ -131,7 +131,7 @@ export function PresenceBar() {
             ))}
           </div>
 
-          {/* Live Activity Feed */}
+          {/* live activity feed */}
           <div className="border-t border-slate-200">
             <div className="px-4 py-2">
               <span className="text-[10px] font-medium text-text-muted">Live Activity</span>

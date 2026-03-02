@@ -1,8 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════
-   Gaya — Pricing Page
-   Three-tier SaaS pricing with monthly/annual toggle, feature
-   comparison matrix, FAQ accordion, and enterprise CTA.
-   ═══════════════════════════════════════════════════════════════════ */
+// pricing page - three-tier saas pricing with comparison and faq
 
 'use client';
 
@@ -14,8 +10,6 @@ import {
   ChevronDown, Sparkles, HelpCircle
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-// ─── Types ──────────────────────────────────────────────────────
 
 interface PricingTier {
   name: string;
@@ -31,8 +25,6 @@ interface PricingTier {
   cta: string;
   ctaStyle: string;
 }
-
-// ─── Pricing Data ───────────────────────────────────────────────
 
 const TIERS: PricingTier[] = [
   {
@@ -122,8 +114,6 @@ const TIERS: PricingTier[] = [
   },
 ];
 
-// ─── Feature Comparison Matrix ──────────────────────────────────
-
 const COMPARISON_FEATURES = [
   { category: 'Discovery', features: [
     { name: 'Public discovery map', starter: true, pro: true, enterprise: true },
@@ -160,8 +150,6 @@ const COMPARISON_FEATURES = [
   ]},
 ];
 
-// ─── FAQ Data ───────────────────────────────────────────────────
-
 const FAQS = [
   { q: 'Can I switch plans at any time?', a: 'Yes! You can upgrade or downgrade at any time. When upgrading, you get immediate access to new features. When downgrading, changes take effect at the end of your billing cycle.' },
   { q: 'What happens after the 14-day trial?', a: 'After your Pro trial ends, you can continue on the Starter (free) plan or upgrade to Pro. All your data and settings are preserved.' },
@@ -170,8 +158,6 @@ const FAQS = [
   { q: 'What payment methods do you accept?', a: 'We accept all major credit cards (Visa, Mastercard, Amex), plus ACH/wire for Enterprise annual plans. All payments are processed securely through Stripe.' },
   { q: 'Is there a commitment or contract?', a: 'No long-term contracts. Monthly plans can be cancelled anytime. Annual plans are paid upfront with a 20% discount. Enterprise plans have optional annual agreements.' },
 ];
-
-// ─── FAQ Item Component ─────────────────────────────────────────
 
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
@@ -188,15 +174,12 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   );
 }
 
-// ─── Cell Renderer for Comparison Matrix ────────────────────────
-
+// cell renderer for comparison matrix
 function FeatureCell({ value }: { value: boolean | string }) {
   if (value === true) return <Check className="w-4 h-4 text-atlas-400 mx-auto" />;
   if (value === false) return <X className="w-4 h-4 text-text-muted/30 mx-auto" />;
   return <span className="text-xs text-text-secondary">{value}</span>;
 }
-
-// ─── Page Component ─────────────────────────────────────────────
 
 export default function PricingPage() {
   const [isAnnual, setIsAnnual] = useState(true);
@@ -204,7 +187,7 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* ═══ Nav ═══ */}
+      {/* nav */}
       <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
@@ -221,7 +204,7 @@ export default function PricingPage() {
         </div>
       </nav>
 
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <section className="relative pt-16 pb-8 px-6 text-center">
         <div className="absolute inset-0">
           <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-atlas-500/5 rounded-full blur-[150px]" />
@@ -242,7 +225,7 @@ export default function PricingPage() {
             Start free. Upgrade when you&apos;re ready. Every plan includes the discovery map and core analytics.
           </p>
 
-          {/* Billing Toggle */}
+          {/* billing toggle */}
           <div className="inline-flex items-center gap-3 p-1 rounded-xl bg-white border border-slate-200">
             <button
               onClick={() => setIsAnnual(false)}
@@ -261,7 +244,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ═══ Pricing Cards ═══ */}
+      {/* pricing cards */}
       <section className="relative px-6 pb-16">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-6">
           {TIERS.map(tier => {
@@ -271,14 +254,14 @@ export default function PricingPage() {
                 'relative p-6 rounded-2xl bg-white backdrop-blur-xl border transition-all hover:-translate-y-1 duration-300',
                 tier.popular ? 'border-atlas-500/30 shadow-xl shadow-atlas-500/10' : 'border-slate-200'
               )}>
-                {/* Popular Badge */}
+                {/* popular badge */}
                 {tier.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-atlas-500 text-white text-[10px] font-bold flex items-center gap-1">
                     <Crown className="w-3 h-3" /> MOST POPULAR
                   </div>
                 )}
 
-                {/* Header */}
+                {/* header */}
                 <div className={cn('inline-flex items-center gap-2 px-2.5 py-1 rounded-lg border text-xs font-medium mb-4', tier.accentBg, tier.accent)}>
                   <tier.icon className="w-3.5 h-3.5" />
                   {tier.name}
@@ -286,7 +269,7 @@ export default function PricingPage() {
 
                 <p className="text-sm text-text-muted mb-4 h-10">{tier.description}</p>
 
-                {/* Price */}
+                {/* price */}
                 <div className="flex items-baseline gap-1 mb-6">
                   <span className="text-4xl font-display font-extrabold text-text-primary">
                     {price === 0 ? 'Free' : `$${price}`}
@@ -299,12 +282,12 @@ export default function PricingPage() {
                   )}
                 </div>
 
-                {/* CTA */}
+                {/* cta */}
                 <Link href={tier.name === 'Enterprise' ? '#' : '/onboard'} className={cn('flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold transition-all mb-6', tier.ctaStyle)}>
                   {tier.cta} <ArrowRight className="w-4 h-4" />
                 </Link>
 
-                {/* Limits Grid */}
+                {/* limits grid */}
                 <div className="grid grid-cols-2 gap-2 mb-6">
                   {tier.limits.map(limit => (
                     <div key={limit.label} className="px-3 py-2 rounded-lg bg-slate-50 border border-slate-200">
@@ -314,7 +297,7 @@ export default function PricingPage() {
                   ))}
                 </div>
 
-                {/* Features */}
+                {/* features */}
                 <div className="space-y-2.5">
                   {tier.features.map(feature => (
                     <div key={feature} className="flex items-start gap-2">
@@ -333,7 +316,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ═══ Feature Comparison ═══ */}
+      {/* feature comparison */}
       <section className="px-6 pb-16">
         <div className="max-w-6xl mx-auto">
           <button
@@ -346,7 +329,7 @@ export default function PricingPage() {
 
           {showComparison && (
             <div className="mt-4 rounded-2xl bg-white backdrop-blur-xl border border-slate-200 overflow-hidden animate-fade-in">
-              {/* Header Row */}
+              {/* header row */}
               <div className="grid grid-cols-4 gap-4 px-6 py-4 border-b border-slate-200 bg-slate-50">
                 <div className="text-xs font-semibold text-text-muted">Feature</div>
                 <div className="text-xs font-semibold text-blue-400 text-center">Starter</div>
@@ -354,7 +337,7 @@ export default function PricingPage() {
                 <div className="text-xs font-semibold text-purple-400 text-center">Enterprise</div>
               </div>
 
-              {/* Feature Groups */}
+              {/* feature groups */}
               {COMPARISON_FEATURES.map(group => (
                 <div key={group.category}>
                   <div className="px-6 py-3 bg-slate-50 border-b border-slate-200">
@@ -375,7 +358,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ═══ FAQ ═══ */}
+      {/* faq */}
       <section className="px-6 pb-24">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
@@ -388,7 +371,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ═══ Enterprise CTA ═══ */}
+      {/* enterprise cta */}
       <section className="px-6 pb-24">
         <div className="max-w-4xl mx-auto p-8 rounded-2xl bg-gradient-to-br from-purple-500/10 via-slate-50/60 to-atlas-500/10 border border-slate-200">
           <div className="flex flex-col md:flex-row items-center gap-8">
@@ -417,7 +400,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ═══ Footer ═══ */}
+      {/* footer */}
       <footer className="border-t border-slate-200 py-8 px-6">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <span className="text-xs text-text-muted/50">© 2026 Gaya</span>

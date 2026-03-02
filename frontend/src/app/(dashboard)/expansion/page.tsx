@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════
-   Gaya — Expansion Playbook
-   Guided 5-phase market entry wizard with geo scoring,
-   milestone checklists, resource allocation, timeline,
-   and AI-powered launch recommendations.
-   ═══════════════════════════════════════════════════════════════════ */
+// expansion playbook - 5-phase market entry wizard with geo scoring, checklists, and ai launch recommendations
 
 'use client';
 
@@ -16,7 +11,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────
 
 interface Market {
   id: string;
@@ -42,7 +36,6 @@ interface Phase {
   tasks: { text: string; done: boolean }[];
 }
 
-// ─── Mock Data ──────────────────────────────────────────────────
 
 const CANDIDATE_MARKETS: Market[] = [
   { id: 'm1', city: 'Austin', country: 'US', score: 94, population: '2.3M', youthPop: '412K', soccerIndex: 88, competitorDensity: 'Low', estimatedARR: '$480K', timeToBreakeven: '4 mo', status: 'launching', phase: 3 },
@@ -106,7 +99,6 @@ const PHASES: Phase[] = [
   },
 ];
 
-// ─── Page Component ─────────────────────────────────────────────
 
 export default function ExpansionPlaybookPage() {
   const [selectedMarket, setSelectedMarket] = useState<Market>(CANDIDATE_MARKETS[0]);
@@ -121,7 +113,7 @@ export default function ExpansionPlaybookPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
@@ -139,7 +131,7 @@ export default function ExpansionPlaybookPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-6 flex gap-6">
-        {/* ═══ Left: Market List ═══ */}
+        {/* left: market list */}
         <div className="w-80 shrink-0 space-y-3">
           <p className="text-xs font-semibold text-text-muted">Target Markets ({CANDIDATE_MARKETS.length})</p>
           {CANDIDATE_MARKETS.map(m => (
@@ -162,7 +154,7 @@ export default function ExpansionPlaybookPage() {
                   {m.status}
                 </span>
               </div>
-              {/* Phase progress */}
+              {/* phase progress */}
               <div className="flex gap-1 mt-2">
                 {[1, 2, 3, 4, 5].map(p => (
                   <div key={p} className={cn('h-1 flex-1 rounded-full',
@@ -177,9 +169,9 @@ export default function ExpansionPlaybookPage() {
           ))}
         </div>
 
-        {/* ═══ Right: Market Detail ═══ */}
+        {/* right: market detail */}
         <div className="flex-1 space-y-4">
-          {/* Market Overview Card */}
+          {/* market overview card */}
           <div className="p-5 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
             <div className="flex items-center justify-between mb-4">
               <div>
@@ -215,7 +207,7 @@ export default function ExpansionPlaybookPage() {
             </div>
           </div>
 
-          {/* AI Recommendation */}
+          {/* ai recommendation */}
           <div className="p-4 rounded-2xl bg-gradient-to-r from-atlas-500/5 via-slate-50/60 to-purple-500/5 border border-atlas-500/10">
             <div className="flex items-start gap-3">
               <Brain className="w-5 h-5 text-atlas-400 shrink-0 mt-0.5" />
@@ -232,7 +224,7 @@ export default function ExpansionPlaybookPage() {
             </div>
           </div>
 
-          {/* Playbook Phases */}
+          {/* playbook phases */}
           <div className="space-y-2">
             <p className="text-xs font-semibold text-text-muted mb-2">Launch Playbook</p>
             {PHASES.map(phase => {
@@ -292,7 +284,7 @@ export default function ExpansionPlaybookPage() {
             })}
           </div>
 
-          {/* Resource Allocation */}
+          {/* resource allocation */}
           <div className="p-5 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
             <h3 className="text-sm font-semibold text-text-primary mb-3">Estimated Resource Allocation</h3>
             <div className="grid grid-cols-4 gap-3">

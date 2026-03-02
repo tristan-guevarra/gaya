@@ -21,7 +21,7 @@ from app.services.ml_service import predict_fill_rate, generate_recommendations
 router = APIRouter(tags=["Intelligence & Admin"])
 
 
-# ─── Geo Metrics ─────────────────────────────────────────
+# geo metrics
 @router.get("/intelligence/metrics", response_model=List[HexMetricResponse])
 async def get_geo_metrics(
     metric_date: Optional[date] = None,
@@ -55,7 +55,7 @@ async def get_geo_metrics(
     ) for m in result.scalars().all()]
 
 
-# ─── Recommendations ─────────────────────────────────────
+# recommendations
 @router.get("/recommendations", response_model=List[RecommendationResponse])
 async def get_recommendations(
     top_n: int = Query(10, ge=1, le=50),
@@ -79,17 +79,17 @@ async def regenerate_recommendations(
     db: AsyncSession = Depends(get_db),
 ):
     """Trigger recommendation regeneration (superadmin only)."""
-    # Use sync session for ML service
+    # use sync session for ml service
     sync_db = SyncSessionLocal()
     try:
-        # Deactivate old recommendations
+        # deactivate old recommendations
         await db.execute(
             select(Recommendation).where(Recommendation.is_active == True)
         )
-        # Generate new ones
+        # generate new ones
         recs = generate_recommendations(sync_db, top_n=10)
 
-        # Store in async DB
+        # store in async db
         for rec_data in recs:
             rec = Recommendation(**rec_data)
             db.add(rec)
@@ -100,7 +100,7 @@ async def regenerate_recommendations(
         sync_db.close()
 
 
-# ─── What-If Simulator ───────────────────────────────────
+# what-if simulator
 @router.post("/simulator/what-if", response_model=WhatIfResponse)
 async def what_if_simulation(
     req: WhatIfRequest,
@@ -129,7 +129,7 @@ async def what_if_simulation(
         sync_db.close()
 
 
-# ─── Feature Flags ────────────────────────────────────────
+# feature flags
 @router.get("/admin/feature-flags")
 async def list_feature_flags(
     current_user: User = Depends(require_superadmin),
@@ -183,7 +183,7 @@ async def toggle_feature_flag(
     return {"id": str(flag.id), "flag_key": flag.flag_key, "is_enabled": flag.is_enabled}
 
 
-# ─── Audit Logs ──────────────────────────────────────────
+# audit logs
 @router.get("/admin/audit-logs")
 async def list_audit_logs(
     entity_type: Optional[str] = None,

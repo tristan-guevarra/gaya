@@ -1,9 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════
-   Gaya — Competitive Intelligence
-   Monitor competitor pricing, reviews, coverage, market share.
-   Feature comparison matrix, pricing benchmarks, and strategic
-   positioning insights with AI analysis.
-   ═══════════════════════════════════════════════════════════════════════ */
+// competitive intelligence - competitor pricing, reviews, coverage, feature comparison, and ai analysis
 
 'use client';
 
@@ -16,7 +11,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// ─── Types ──────────────────────────────────────────────────────────
 
 type Tab = 'overview' | 'features' | 'pricing' | 'moats';
 
@@ -39,7 +33,6 @@ interface Competitor {
   weaknesses: string[];
 }
 
-// ─── Mock Data ──────────────────────────────────────────────────────
 
 const competitors: Competitor[] = [
   {
@@ -95,7 +88,6 @@ const featureMatrix = [
   { feature: 'Custom Branding', tenpo: true, upper90: false, fieldtime: false, kickstart: true },
 ];
 
-// ─── Page ───────────────────────────────────────────────────────────
 
 export default function CompetitiveIntelPage() {
   const [tab, setTab] = useState<Tab>('overview');
@@ -112,7 +104,7 @@ export default function CompetitiveIntelPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
@@ -138,10 +130,10 @@ export default function CompetitiveIntelPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-6">
-        {/* ═══ Overview ═══ */}
+        {/* overview */}
         {tab === 'overview' && (
           <div className="space-y-6 animate-fade-in">
-            {/* Market Share */}
+            {/* market share */}
             <div className="p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-4">GTA Youth Soccer Training Market Share</h3>
               <div className="flex rounded-full h-8 overflow-hidden mb-4">
@@ -166,7 +158,7 @@ export default function CompetitiveIntelPage() {
               </div>
             </div>
 
-            {/* Competitor Cards */}
+            {/* competitor cards */}
             <div className="grid grid-cols-2 gap-4">
               {competitors.map(c => (
                 <div key={c.id} className={cn('p-5 rounded-xl border transition-all',
@@ -231,7 +223,7 @@ export default function CompetitiveIntelPage() {
           </div>
         )}
 
-        {/* ═══ Feature Matrix ═══ */}
+        {/* feature matrix */}
         {tab === 'features' && (
           <div className="space-y-4 animate-fade-in">
             <div className="flex items-center justify-between">
@@ -308,7 +300,7 @@ export default function CompetitiveIntelPage() {
           </div>
         )}
 
-        {/* ═══ Pricing ═══ */}
+        {/* pricing */}
         {tab === 'pricing' && (
           <div className="space-y-6 animate-fade-in">
             <div className="p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
@@ -335,7 +327,7 @@ export default function CompetitiveIntelPage() {
               </div>
             </div>
 
-            {/* Pricing Strategy */}
+            {/* pricing strategy */}
             <div className="p-5 rounded-xl bg-purple-500/5 border border-purple-500/15">
               <div className="flex items-center gap-2 mb-2">
                 <Sparkles className="w-4 h-4 text-purple-400" />
@@ -350,10 +342,10 @@ export default function CompetitiveIntelPage() {
           </div>
         )}
 
-        {/* ═══ Moats ═══ */}
+        {/* moats */}
         {tab === 'moats' && (
           <div className="space-y-6 animate-fade-in">
-            {/* Moat Assessment */}
+            {/* moat assessment */}
             <div className="grid grid-cols-3 gap-4">
               {[
                 {
@@ -392,7 +384,7 @@ export default function CompetitiveIntelPage() {
               ))}
             </div>
 
-            {/* Win/Loss Analysis */}
+            {/* win/loss analysis */}
             <div className="p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-white/60 shadow-lg shadow-blue-900/5">
               <h3 className="text-sm font-semibold text-text-primary mb-4">Win/Loss Analysis (Last 90 Days)</h3>
               <div className="grid grid-cols-4 gap-4">

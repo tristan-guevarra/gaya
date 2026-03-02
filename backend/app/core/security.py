@@ -17,7 +17,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security_scheme = HTTPBearer()
 
 
-# ─── Password ────────────────────────────────────────────
+# password hashing
 def hash_password(password: str) -> str:
     return pwd_context.hash(password)
 
@@ -26,7 +26,7 @@ def verify_password(plain: str, hashed: str) -> bool:
     return pwd_context.verify(plain, hashed)
 
 
-# ─── JWT Tokens ──────────────────────────────────────────
+# jwt tokens
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     to_encode = data.copy()
     expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES))
@@ -61,7 +61,7 @@ def decode_refresh_token(token: str) -> dict:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token")
 
 
-# ─── Current User Dependency ─────────────────────────────
+# current user dependency
 async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security_scheme),
     db: AsyncSession = Depends(get_db),
@@ -79,7 +79,7 @@ async def get_current_user(
     return user
 
 
-# ─── Role Checkers ───────────────────────────────────────
+# role checkers
 class RoleChecker:
     """Dependency that enforces minimum role level."""
     ROLE_HIERARCHY = {"athlete": 0, "coach": 1, "org_admin": 2, "superadmin": 3}

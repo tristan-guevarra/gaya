@@ -1,8 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════
-   Gaya — Product Changelog
-   Beautiful release timeline with version badges, categorized
-   features, breaking changes, and improvement tracking.
-   ═══════════════════════════════════════════════════════════════════ */
+// product changelog - release timeline with categorized changes
 
 'use client';
 
@@ -15,8 +11,6 @@ import {
   ChevronDown, Tag
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-// ─── Types ──────────────────────────────────────────────────────
 
 interface ChangeItem {
   type: 'feature' | 'improvement' | 'fix' | 'breaking';
@@ -34,8 +28,6 @@ interface Release {
   items: ChangeItem[];
   highlights?: string[];
 }
-
-// ─── Releases Data ──────────────────────────────────────────────
 
 const RELEASES: Release[] = [
   {
@@ -138,8 +130,6 @@ const RELEASES: Release[] = [
   },
 ];
 
-// ─── Change Type Styles ─────────────────────────────────────────
-
 const CHANGE_STYLES = {
   feature: { icon: Sparkles, color: 'text-atlas-400', bg: 'bg-atlas-500/10', label: 'New' },
   improvement: { icon: Zap, color: 'text-blue-400', bg: 'bg-blue-500/10', label: 'Improved' },
@@ -153,8 +143,6 @@ const BADGE_STYLES = {
   patch: 'bg-slate-100 text-text-muted border-slate-200',
 };
 
-// ─── Page Component ─────────────────────────────────────────────
-
 export default function ChangelogPage() {
   const [filterType, setFilterType] = useState<string>('all');
   const [expandedVersion, setExpandedVersion] = useState<string>('1.6.0');
@@ -163,7 +151,7 @@ export default function ChangelogPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* ═══ Nav ═══ */}
+      {/* nav */}
       <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
@@ -180,7 +168,7 @@ export default function ChangelogPage() {
         </div>
       </nav>
 
-      {/* ═══ Header ═══ */}
+      {/* header */}
       <section className="relative pt-16 pb-8 px-6 text-center">
         <div className="absolute inset-0">
           <div className="absolute top-0 left-1/3 w-[400px] h-[400px] bg-atlas-500/5 rounded-full blur-[120px]" />
@@ -195,7 +183,7 @@ export default function ChangelogPage() {
         </div>
       </section>
 
-      {/* ═══ Filters ═══ */}
+      {/* filters */}
       <div className="max-w-4xl mx-auto px-6 mb-8">
         <div className="flex gap-2">
           {typeFilters.map(type => (
@@ -208,10 +196,10 @@ export default function ChangelogPage() {
         </div>
       </div>
 
-      {/* ═══ Timeline ═══ */}
+      {/* timeline */}
       <section className="max-w-4xl mx-auto px-6 pb-24">
         <div className="relative">
-          {/* Timeline line */}
+          {/* timeline line */}
           <div className="absolute left-[23px] top-0 bottom-0 w-px bg-slate-100" />
 
           <div className="space-y-8">
@@ -225,7 +213,7 @@ export default function ChangelogPage() {
 
               return (
                 <div key={release.version} className="relative pl-14">
-                  {/* Timeline dot */}
+                  {/* timeline dot */}
                   <div className="absolute left-0 top-0">
                     <div className={cn('w-12 h-12 rounded-xl flex items-center justify-center',
                       release.badge === 'major' ? 'bg-atlas-500/15 border border-atlas-500/20' :
@@ -239,7 +227,7 @@ export default function ChangelogPage() {
                     </div>
                   </div>
 
-                  {/* Release Card */}
+                  {/* release card */}
                   <div className="rounded-2xl bg-white backdrop-blur-xl border border-slate-200 overflow-hidden">
                     <button onClick={() => setExpandedVersion(isExpanded ? '' : release.version)}
                       className="w-full px-6 py-4 text-left hover:bg-slate-50 transition-colors">
@@ -257,7 +245,7 @@ export default function ChangelogPage() {
                       </div>
                       <p className="text-xs text-text-muted">{release.description}</p>
 
-                      {/* Highlight Tags */}
+                      {/* highlight tags */}
                       {release.highlights && (
                         <div className="flex flex-wrap gap-1.5 mt-3">
                           {release.highlights.map(h => (
@@ -269,7 +257,7 @@ export default function ChangelogPage() {
                       )}
                     </button>
 
-                    {/* Expanded Content */}
+                    {/* expanded content */}
                     {isExpanded && (
                       <div className="px-6 pb-5 space-y-2 border-t border-slate-200 pt-4 animate-fade-in">
                         {filteredItems.map((item, i) => {
@@ -300,7 +288,7 @@ export default function ChangelogPage() {
         </div>
       </section>
 
-      {/* ═══ Footer ═══ */}
+      {/* footer */}
       <footer className="border-t border-slate-200 py-8 px-6">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <span className="text-xs text-text-muted/50">© 2026 Gaya</span>

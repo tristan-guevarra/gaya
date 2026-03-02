@@ -153,7 +153,7 @@ def predict_fill_rate(
         CoachLocation.h3_index_r8.in_(nearby_cells),
     ).scalar() or 0
 
-    # 4. Historical fill rates in area
+    # 4. historical fill rates in area
     hist_events = db.query(Event).filter(
         Event.h3_index_r8.in_(nearby_cells),
         Event.is_active == True,
@@ -164,19 +164,19 @@ def predict_fill_rate(
             e.spots_filled / max(e.capacity, 1) for e in hist_events
         ])
     else:
-        avg_fill = 0.5  # default assumption
+        avg_fill = 0.5  # default assumption when no history
 
-    # 5. Price competitiveness
+    # 5. price competitiveness
     if hist_events:
         avg_price = np.mean([e.price_cents for e in hist_events if e.price_cents > 0] or [5000])
         price_ratio = price_cents / max(avg_price, 1)
     else:
         price_ratio = 1.0
 
-    # 6. Seasonality
+    # 6. seasonality
     seasonal_factor = get_seasonality_factor(date.today() + timedelta(days=30))
 
-    # ─── Build feature vector ─────────────────────────────
+    # build feature vector
     features = {
         "demand_score": lead_count * 3 + search_count,
         "competition_count": competition,
@@ -187,9 +187,9 @@ def predict_fill_rate(
         "seasonality": seasonal_factor,
     }
 
-    # ─── Simple Prediction Model ──────────────────────────
-    # MVP: Use a weighted heuristic that mimics what a trained model would do.
-    # In production, this would be replaced by a trained sklearn model.
+    # simple prediction model
+    # mvp: weighted heuristic that mimics what a trained model would do
+    # in production, this would be replaced by a trained sklearn model
     weights = {
         "demand_score": 0.25,
         "competition_count": -0.10,
@@ -200,7 +200,7 @@ def predict_fill_rate(
         "seasonality": 0.15,
     }
 
-    # Normalize features
+    # normalize features
     norm_demand = min(features["demand_score"] / 50, 1.0)
     norm_competition = min(features["competition_count"] / 10, 1.0)
     norm_coach = min(features["coach_density"] / 10, 1.0)
@@ -216,17 +216,17 @@ def predict_fill_rate(
         weights["seasonality"] * seasonal_factor
     )
 
-    # Sigmoid to bound between 0 and 1
+    # sigmoid to bound between 0 and 1
     predicted_fill_rate = 1 / (1 + np.exp(-5 * (raw_score - 0.3)))
     predicted_fill_rate = round(float(predicted_fill_rate), 3)
 
-    # Confidence based on data availability
+    # confidence based on data availability
     confidence = min(0.95, 0.3 + (lead_count + search_count) / 100 * 0.3 + len(hist_events) / 20 * 0.35)
 
     predicted_signups = int(predicted_fill_rate * capacity)
     predicted_revenue = predicted_signups * price_cents
 
-    # ─── Feature Importance Explanation ───────────────────
+    # feature importance explanation
     factors = [
         {"name": "Area Demand (leads + searches)", "value": features["demand_score"], "impact": round(weights["demand_score"] * norm_demand, 3), "direction": "positive"},
         {"name": "Historical Fill Rate", "value": round(avg_fill, 2), "impact": round(weights["avg_historical_fill"] * avg_fill, 3), "direction": "positive"},
@@ -256,7 +256,7 @@ def predict_fill_rate(
     }
 
 
-# ─── Expansion Recommendations ────────────────────────────
+# expansion recommendations
 def generate_recommendations(db: Session, top_n: int = 10) -> List[Dict]:
     """
     Generate top N expansion zone recommendations.
@@ -264,14 +264,14 @@ def generate_recommendations(db: Session, top_n: int = 10) -> List[Dict]:
     """
     today = date.today()
 
-    # Get latest metrics
+    # get latest metrics
     metrics = db.query(GeoCellMetric).filter(
         GeoCellMetric.metric_date == today,
         GeoCellMetric.demand_score > 0,
     ).all()
 
     if not metrics:
-        # Fallback: use most recent available date
+        # fallback: use most recent available date
         latest_date = db.query(func.max(GeoCellMetric.metric_date)).scalar()
         if latest_date:
             metrics = db.query(GeoCellMetric).filter(
@@ -284,7 +284,7 @@ def generate_recommendations(db: Session, top_n: int = 10) -> List[Dict]:
 
     seasonal_factor = get_seasonality_factor(today + timedelta(days=30))
 
-    # Score each cell
+    # score each cell
     scored = []
     for m in metrics:
         opportunity_score = (
@@ -295,12 +295,12 @@ def generate_recommendations(db: Session, top_n: int = 10) -> List[Dict]:
         )
         scored.append((m, opportunity_score))
 
-    # Sort by opportunity score descending
+    # sort by opportunity score descending
     scored.sort(key=lambda x: x[1], reverse=True)
 
     recommendations = []
     for rank, (m, opp_score) in enumerate(scored[:top_n], 1):
-        # Determine best event type based on lead preferences
+        # determine best event type based on lead preferences
         lead_types = db.query(Lead.preferred_type, func.count(Lead.id)).filter(
             Lead.h3_index_r8 == m.h3_index,
         ).group_by(Lead.preferred_type).all()
@@ -310,12 +310,12 @@ def generate_recommendations(db: Session, top_n: int = 10) -> List[Dict]:
         else:
             best_type = "camp"
 
-        # Ideal timing heuristic
+        # ideal timing heuristic
         ideal_days = "Sat,Sun" if best_type == "camp" else "Mon,Wed,Fri"
         ideal_start = "09:00" if best_type == "camp" else "17:00"
         ideal_end = "12:00" if best_type == "camp" else "19:00"
 
-        # Fill rate prediction for this zone
+        # fill rate prediction for this zone
         pred = predict_fill_rate(
             db, m.center_lat, m.center_lng,
             event_type=best_type, capacity=20, price_cents=5000

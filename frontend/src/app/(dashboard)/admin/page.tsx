@@ -1,8 +1,4 @@
-/* ═══════════════════════════════════════════════════════════
-   Gaya — Admin Command Center
-   Feature flag management, audit log viewer,
-   organization management, and system configuration
-   ═══════════════════════════════════════════════════════════ */
+// admin command center - feature flags, audit logs, org management, and system config
 
 'use client';
 
@@ -18,7 +14,6 @@ import {
 } from 'lucide-react';
 import type { FeatureFlag, AuditLogEntry } from '@/types';
 
-// ─── Mock Feature Flags ───────────────────────────────────
 
 const MOCK_FLAGS: FeatureFlag[] = [
   { id: 'f1', key: 'ml_recommendations', name: 'ML Recommendations', description: 'AI-powered expansion recommendations for admin dashboard', enabled: true, percentage_rollout: 100, updated_by: 'admin@gaya.app', updated_at: '2026-02-28T10:00:00Z' },
@@ -33,7 +28,6 @@ const MOCK_FLAGS: FeatureFlag[] = [
   { id: 'f10', key: 'dark_mode_v2', name: 'Dark Mode v2', description: 'Enhanced dark theme with OLED-optimized contrast', enabled: true, percentage_rollout: 100, updated_by: 'admin@gaya.app', updated_at: '2026-01-15T11:00:00Z' },
 ];
 
-// ─── Mock Audit Logs ──────────────────────────────────────
 
 const MOCK_AUDIT: AuditLogEntry[] = [
   { id: 'a1', user_id: 'u1', user_name: 'admin@gaya.app', action: 'update', resource_type: 'feature_flag', resource_id: 'f1', changes: { enabled: { old: false, new: true } }, ip_address: '192.168.1.100', created_at: '2026-02-28T10:00:00Z' },
@@ -62,7 +56,6 @@ const resourceIcons: Record<string, typeof Zap> = {
   organization: Building2,
 };
 
-// ─── Mock Orgs ────────────────────────────────────────────
 
 const MOCK_ORGS = [
   { id: 'org-1', name: 'GTA Elite Soccer Academy', coaches: 12, events: 28, plan: 'pro', status: 'active' },
@@ -73,7 +66,6 @@ const MOCK_ORGS = [
   { id: 'org-6', name: 'Vaughan Technical Academy', coaches: 2, events: 3, plan: 'free', status: 'trial' },
 ];
 
-// ─── Page Component ───────────────────────────────────────
 
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<'flags' | 'audit' | 'orgs'>('flags');
@@ -104,7 +96,7 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen pb-16">
-      {/* ─── Header ─── */}
+      {/* header */}
       <div className="border-b border-white/30">
         <div className="max-w-[1400px] mx-auto px-6 py-8">
           <div className="flex items-center gap-3">
@@ -121,7 +113,7 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* ─── Tabs ─── */}
+      {/* tabs */}
       <div className="border-b border-slate-200 sticky top-0/80 backdrop-blur-xl z-10">
         <div className="max-w-[1400px] mx-auto px-6">
           <div className="flex gap-0">
@@ -155,7 +147,7 @@ export default function AdminPage() {
       </div>
 
       <div className="max-w-[1400px] mx-auto px-6 pt-8">
-        {/* ═══ Feature Flags Tab ═══ */}
+        {/* feature flags tab */}
         {activeTab === 'flags' && (
           <div>
             <div className="flex items-center justify-between mb-6">
@@ -185,7 +177,7 @@ export default function AdminPage() {
                   )}
                 >
                   <div className="flex items-center gap-4">
-                    {/* Toggle */}
+                    {/* toggle */}
                     <button
                       onClick={() => toggleFlag(flag.id)}
                       className={cn(
@@ -199,7 +191,7 @@ export default function AdminPage() {
                       )} />
                     </button>
 
-                    {/* Info */}
+                    {/* info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
                         <h4 className="text-sm font-medium text-text-primary">{flag.name}</h4>
@@ -208,7 +200,7 @@ export default function AdminPage() {
                       <p className="text-xs text-text-muted">{flag.description}</p>
                     </div>
 
-                    {/* Meta */}
+                    {/* meta */}
                     <div className="hidden md:flex items-center gap-3 shrink-0">
                       {flag.percentage_rollout !== undefined && flag.percentage_rollout < 100 && flag.enabled && (
                         <Badge variant="warning" size="sm">{flag.percentage_rollout}% rollout</Badge>
@@ -234,7 +226,7 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* ═══ Audit Log Tab ═══ */}
+        {/* audit log tab */}
         {activeTab === 'audit' && (
           <div>
             <div className="flex items-center justify-between mb-6">
@@ -253,7 +245,7 @@ export default function AdminPage() {
               </Button>
             </div>
 
-            {/* Log entries */}
+            {/* log entries */}
             <div className="space-y-1">
               {filteredAudit.map((log) => {
                 const Icon = resourceIcons[log.resource_type] || Edit;
@@ -262,7 +254,7 @@ export default function AdminPage() {
                     key={log.id}
                     className="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-slate-50 transition-all group"
                   >
-                    {/* Action icon */}
+                    {/* action icon */}
                     <div className={cn(
                       'w-8 h-8 rounded-lg flex items-center justify-center shrink-0',
                       actionColors[log.action] || 'text-text-muted bg-slate-100/50'
@@ -270,7 +262,7 @@ export default function AdminPage() {
                       <Icon className="w-3.5 h-3.5" />
                     </div>
 
-                    {/* Content */}
+                    {/* content */}
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-text-primary">
                         <span className="font-medium">{log.user_name}</span>
@@ -287,7 +279,7 @@ export default function AdminPage() {
                         <code className="text-[10px] text-text-muted">{log.resource_id}</code>
                       </p>
 
-                      {/* Changes detail */}
+                      {/* changes detail */}
                       {log.changes && (
                         <div className="flex items-center gap-2 mt-1">
                           {Object.entries(log.changes).map(([key, val]) => (
@@ -301,7 +293,7 @@ export default function AdminPage() {
                       )}
                     </div>
 
-                    {/* Timestamp + IP */}
+                    {/* timestamp + ip */}
                     <div className="text-right shrink-0 hidden md:block">
                       <p className="text-xs text-text-muted">
                         {new Date(log.created_at).toLocaleString('en-CA', {
@@ -319,7 +311,7 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* ═══ Organizations Tab ═══ */}
+        {/* organizations tab */}
         {activeTab === 'orgs' && (
           <div>
             <div className="flex items-center justify-between mb-6">

@@ -5,7 +5,7 @@ from uuid import UUID
 from datetime import datetime, date, time
 
 
-# ─── Coach Schemas ────────────────────────────────────────
+# coach schemas
 class CoachLocationSchema(BaseModel):
     id: Optional[UUID] = None
     name: str
@@ -65,7 +65,7 @@ class CoachUpdate(BaseModel):
     skill_levels: Optional[List[str]] = None
 
 
-# ─── Event Schemas ────────────────────────────────────────
+# event schemas
 class EventOccurrenceSchema(BaseModel):
     id: Optional[UUID] = None
     date: date
@@ -155,7 +155,7 @@ class EventUpdate(BaseModel):
     is_published: Optional[bool] = None
 
 
-# ─── Lead Schemas ─────────────────────────────────────────
+# lead schemas
 class LeadCreate(BaseModel):
     event_id: Optional[UUID] = None
     coach_id: Optional[UUID] = None
@@ -186,7 +186,7 @@ class LeadResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ─── Map / Search Schemas ────────────────────────────────
+# map / search schemas
 class MapSearchParams(BaseModel):
     latitude: float
     longitude: float
@@ -231,7 +231,7 @@ class GeoJSONCollection(BaseModel):
     features: List[GeoJSONFeature]
 
 
-# ─── Intelligence Schemas ─────────────────────────────────
+# intelligence schemas
 class HexMetricResponse(BaseModel):
     h3_index: str
     center_lat: float

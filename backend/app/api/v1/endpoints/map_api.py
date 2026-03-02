@@ -45,7 +45,7 @@ async def get_map_markers(
     radius_meters = radius_km * 1000
     search_point = func.ST_SetSRID(func.ST_MakePoint(longitude, latitude), 4326)
 
-    # ─── Coach markers ────────────────────────────────────
+    # coach markers
     coach_query = (
         select(Coach, CoachLocation)
         .join(CoachLocation, Coach.id == CoachLocation.coach_id)
@@ -80,7 +80,7 @@ async def get_map_markers(
             cover_image_url=coach.photo_url,
         ))
 
-    # ─── Event markers ────────────────────────────────────
+    # event markers
     event_query = (
         select(Event)
         .where(
@@ -129,7 +129,7 @@ async def get_map_markers(
             cover_image_url=event.cover_image_url,
         ))
 
-    # ─── Log search (anonymized) ──────────────────────────
+    # log search (anonymized)
     h3_idx = lat_lng_to_h3(latitude, longitude)
     search_log = SearchLog(
         sport=sport,
